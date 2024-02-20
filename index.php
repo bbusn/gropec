@@ -2,7 +2,9 @@
 
 /*____________ CONSTS ____________*/
 define('ROOT', '/gropec/');
+// define('ROOT', '/');
 define('ROOT_SEGMENTS', '4');
+// define('ROOT_SEGMENTS', '3');
 define('VERSION', '0.6');
 define('AUTHOR_URL', 'https://benoitbusnardo.fr');
 define('V_QUERY', '?v='.VERSION);
@@ -49,7 +51,6 @@ try {
     
         $subname = isset($urlSegments[0]) ? $urlSegments[0] : '';        
         $route = implode('/', array_slice($urlSegments, 1));
-        echo "<script>console.log('route: " . $route . "')</script>";
         /*________________________________________*/
         /*  USER LAUNCHED APP OR WEB */
         /*________________________________________*/

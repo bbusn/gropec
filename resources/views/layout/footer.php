@@ -1,4 +1,4 @@
-<footer id="footer" class="flex-center-center">
+<footer id="footer" class="no-select flex-center-center">
     <nav class="flex-center-center">
         <ul class="flex-evenly-center">
             <li class="flex-center-center">

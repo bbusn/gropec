@@ -1,0 +1,53 @@
+h1 {
+    font-size: 16px;
+}
+h1.privacy {
+    margin-top: 300px;
+}
+h1.terms {
+    margin-top: 400px;
+}
+h2 {
+    font-size: 14px;
+}
+h3 {
+    font-size: 12px;
+}
+p {
+    opacity: 0.5;
+    text-align: center;
+    font-size: 10px;
+    color: var(--white);
+}
+.legal {
+    text-align: center;
+    height: 400px;
+    overflow-y: scroll;
+    margin-top: -50px;
+    width: 80%;
+}
+.primary-button {
+    position: absolute;
+    bottom: 8%;
+    width: 65%;
+}
+.legal-link, .legal-link:visited {
+    -webkit-transition: color 0.3s, -webkit-transform 0.3s;
+    -o-transition: color 0.3s, transform 0.3s;
+    transition: color 0.3s, transform 0.3s, -webkit-transform 0.3s;
+    color: var(--white);
+}
+.legal-link:hover {
+    -webkit-transition: color 0.3s, -webkit-transform 0.3s;
+    -o-transition: color 0.3s, transform 0.3s;
+    transition: color 0.3s, transform 0.3s, -webkit-transform 0.3s;
+    color: var(--primaryColor);
+}
+.legal-link:active {
+    -webkit-transition: color 0.3s, -webkit-transform 0.3s;
+    -o-transition: color 0.3s, transform 0.3s;
+    transition: color 0.3s, transform 0.3s, -webkit-transform 0.3s;
+    -webkit-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+            transform: scale(0.9);
+}

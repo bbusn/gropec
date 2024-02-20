@@ -216,7 +216,7 @@ try {
                             /*________________ HAS GROUP ________________*/
                             } else {
                                 new AlertModel('error', 'Impossible de créer un groupe tant que vous ne quittez pas le vôtre, ' . $_SESSION['user']['group']['name'] . '.');
-                                header('Location: ' . ROOT);
+                                header('Location: ' . ROOT . 'group');
                                 exit();
                             }
                         /*________________ NO POST ________________*/

@@ -1,4 +1,5 @@
 let nav = ['home', 'add', 'group', 'user'];
+const height = 50;
 
 nav.forEach((item) => document.getElementById(item).classList.remove('active'));
 let activeElement = document.getElementById(subname);
@@ -10,8 +11,7 @@ function adjustFooterPosition() {
     const rect = footer.getBoundingClientRect();
     const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
     if (!isVisible) {
-        const height = rect.height;
-        footer.style.transform = `translateY(-${height/2}px)`;
+        footer.style.transform = `translateY(-${height}px)`;
     } else {
         footer.style.transform = "translateY(0)";
     }

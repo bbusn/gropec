@@ -5,7 +5,7 @@ define('ROOT', '/gropec/');
 // define('ROOT', '/');
 define('ROOT_SEGMENTS', '4');
 // define('ROOT_SEGMENTS', '3');
-define('VERSION', '0.6');
+define('VERSION', '0.6.1');
 define('AUTHOR_URL', 'https://benoitbusnardo.fr');
 define('V_QUERY', '?v='.VERSION);
 /*____________ SESSION ____________*/

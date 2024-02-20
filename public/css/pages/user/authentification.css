@@ -1,1 +1,24 @@
-.authentification form:first-of-type {margin-top: 40px;gap: 5px;}.authentification .back-install {margin-top: 10px;}.authentification form label {width: 90%;text-align: left;font-size: 18px;color: var(--white);}.authentification form input {margin-bottom: 10px;}.authentification form input[type="submit"] {margin-top: 10px;}input[type="text"], input[type="password"] {-webkit-box-sizing: border-box;box-sizing: border-box;width: 90%;height: 35px;border: none;padding: 0 30px;font-size: 18px;font-weight: 600;text-align: center;background: var(--white);-webkit-transition: -webkit-filter 0.3s;-o-transition: filter 0.3s;transition: filter 0.3s, -webkit-filter 0.3s;outline: none;}input[type="text"]:hover, input[type="password"]:hover {-webkit-transition: -webkit-filter 0.3s;-o-transition: filter 0.3s;transition: filter 0.3s, -webkit-filter 0.3s;-webkit-filter: brightness(0.6);filter: brightness(0.6);outline: none;}input[type="text"]:focus, input[type="password"]:focus {-webkit-transition: -webkit-filter 0.3s;-o-transition: filter 0.3s;transition: filter 0.3s, -webkit-filter 0.3s;-webkit-filter: brightness(0.8);filter: brightness(0.8);outline: none;}.authentification .sign-up label {font-size: 16px;}.authentification .sign-up input[type="text"], .authentification .sign-up input[type="password"] {height: 28px;padding: 0 28px;font-size: 16px;}
+.authentification form:first-of-type {
+    margin-top: 40px;
+    gap: 5px;
+}
+.authentification .back-install {
+    margin-top: 10px;
+}
+.authentification form label {
+    min-width: 90%;
+    max-width: 90%;
+    text-align: left;
+    font-size: 18px;
+    color: var(--white);
+}
+.authentification form input {
+    margin-bottom: 10px;
+}
+.authentification form input[type="submit"] {
+    margin-top: 10px;
+}
+.authentification .sign-up input[type="text"], .authentification .sign-up input[type="password"] {
+    height: 28px;
+    padding: 0 28px;
+}

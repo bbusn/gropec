@@ -13,8 +13,8 @@ This README provides essential information for development and maintenance of th
 
 ## Deployement
 - Import gropec.sql
-- Remove actual .htaccess and replace it by .htacces-dev
-- Remove actual .site.webmanifest and replace it by .site.webmanifest-dev
+- Delete actual .htaccess content and replace it by .htaccess-deploy content
+- Delete actual .site.webmanifest content and replace it by .site.webmanifest-deploy content
 
 ## Naming Standards
 

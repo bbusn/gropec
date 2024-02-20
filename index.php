@@ -63,13 +63,22 @@ try {
                 if ($route == 'sign-up') {
                     if (!isset($_SESSION['user'])) {
                         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                            require('app/utilities/SanitizeData.php');
-        
-                            $username = sanitize_form_data($_POST['username']);
-                            $password = sanitize_form_data($_POST['password']);
-                            $passwordConfirm = sanitize_form_data($_POST['password-confirm']);
-        
-                            $userController->sign_up($username, $password, $passwordConfirm);  
+                            if (isset($_POST['back-install'])) {
+                                if (!isset($_SESSION['app'])) {
+                                    unset($_SESSION['web']);
+                                    unset($_SESSION['user']);
+                                    header('Location: ' . ROOT);
+                                    exit();
+                                }
+                            } else {
+                                require('app/utilities/SanitizeData.php');
+            
+                                $username = sanitize_form_data($_POST['username']);
+                                $password = sanitize_form_data($_POST['password']);
+                                $passwordConfirm = sanitize_form_data($_POST['password-confirm']);
+            
+                                $userController->sign_up($username, $password, $passwordConfirm);
+                            }
                         } else {
                             $userController->sign_up_view();
                         }

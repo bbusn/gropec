@@ -23,7 +23,7 @@ require('app/controllers/HomeController.php');
 require('app/controllers/UserController.php');
 require('app/controllers/ErrorController.php');
 
-$homeController = new HomeController();
+$homeController = new HomeController($conn);
 $userController = new UserController($conn);
 $errorController = new ErrorController();
 
@@ -123,6 +123,46 @@ try {
                         header('Location: ' . ROOT . 'user');
                         exit();
                     }
+                /*________________ USER PERFORMANCES ________________*/
+                } elseif ($route == 'performances') {
+                    if (isset($_SESSION['user'])) {
+                        new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
+                        $errorController->error_503();
+                    } else {
+                        new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                        header('Location: ' . ROOT . 'user/sign-in');
+                        exit();
+                    }
+                /*________________ USER SETTINGS ________________*/
+                } elseif ($route == 'settings') {
+                    if (isset($_SESSION['user'])) {
+                        new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
+                        $errorController->error_503();
+                    } else {
+                        new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                        header('Location: ' . ROOT . 'user/sign-in');
+                        exit();
+                    }
+                /*________________ USER STATISTICS ________________*/
+                } elseif ($route == 'statistics') {
+                    if (isset($_SESSION['user'])) {
+                        new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
+                        $errorController->error_503();
+                    } else {
+                        new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                        header('Location: ' . ROOT . 'user/sign-in');
+                        exit();
+                    }
+                /*________________ USER HISTORY ________________*/
+                } elseif ($route == 'history') {
+                    if (isset($_SESSION['user'])) {
+                        new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
+                        $errorController->error_503();
+                    } else {
+                        new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                        header('Location: ' . ROOT . 'user/sign-in');
+                        exit();
+                    }
                 /*________________ USER PAGE ________________*/
                 } elseif ($route == '') {
                     if (isset($_SESSION['user'])) {
@@ -147,8 +187,7 @@ try {
                 /*________________ HOME PAGE ________________*/
                 if ($route == '') {
                     if (isset($_SESSION['user'])) {
-                        new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
-                        $errorController->error_503();
+                        $homeController->home_view();
                     } else {
                         new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
                         header('Location: ' . ROOT . 'user/sign-in');
@@ -165,7 +204,6 @@ try {
             } elseif ($subname == 'group') {
                 /*________________ GROUP PAGE ________________*/
                 if ($route == '') {
-                    echo '<script>console.log("group")</script>';
                     /*________________ IF POST ________________*/
                     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         /*________________ IF POST JOIN GROUP ________________*/

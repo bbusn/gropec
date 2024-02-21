@@ -198,3 +198,11 @@ h3 {
     height: 100%;
     width: 90%;
 }
+*::-moz-selection {
+    background: var(--tertiaryColor);
+    color: var(--primaryColor);
+}
+*::selection {
+    background: var(--tertiaryColor);
+    color: var(--primaryColor);
+}

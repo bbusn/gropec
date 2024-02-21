@@ -30,10 +30,10 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/loader.php'); ?>
             <?php require('resources/views/layout/orientation_block.php'); ?>
             <?php require('resources/views/layout/header.php'); ?>
-            <div class="main-container group flex-evenly-center flex-column">
+            <div class="main-container group flex-between-center flex-column">
                 <?php if (isset($_SESSION['user']['group'])) : ?>
                     <div id="title" class="flex-center-center flex-column">
-                        <h1><?= $_SESSION['user']['group']['name'] ?></h1>
+                        <h1><span><?= $_SESSION['user']['group']['name'] ?></span></h1>
                         <h2>Code : <?= $_SESSION['user']['group']['code'] ?></h2>
                     </div>
                     <?php if (isset($_SESSION['user']['group']['users'])) : ?>
@@ -63,13 +63,16 @@ require('resources/views/layout/head.php');
                     </form>
                 <?php else : ?>
                     <div id="title" class="flex-center-center flex-column no-select">
-                        <h1>Vous n'avez pas encore de groupe</h1>
+                        <h1><span>Vous n'avez pas encore de groupe</span></h1>
                         <h2>Rejoignez-en un ou créez le vôtre</h2>
                     </div>
                     <form class="group-actions flex-center-center flex-column no-select" action="" method="post">
-                        <input type="hidden" name="join-group">
-                        <input type="text" placeholder="COD3GROUP3" name="code">
-                        <input type="submit" class="flex-center-center primary-button" value="Rejoindre le groupe">
+                        <div class="flex-center-center flex-column">
+                            <input type="hidden" name="join-group">
+                            <input type="text" placeholder="COD3GROUP3" name="code">
+                            <input type="submit" class="flex-center-center primary-button" value="Rejoindre le groupe">
+                        </div>
+                        <h2>ou</h2>                    
                         <a href="<?= ROOT ?>group/create" class="flex-center-center secondary-button">Créer un groupe</a>
                     </form>
                 <?php endif; ?>

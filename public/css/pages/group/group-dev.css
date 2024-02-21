@@ -1,14 +1,23 @@
 .main-container.group {
-    height: 70%;
+    height: 50%;
 }
 .group #title {
     width: 70%;
 }
+h1 {
+    font-size: 26px;
+}
 .group-actions {
+    position: relative;
+    gap: 20px;
     width: 100%;
+}
+.group-actions div.flex-center-center {
     gap: 10px;
+    width: 100%;
 }
 .group-actions.flex-center-center.flex-column input[type="text"] {
+    color: var(--quaternaryColorLight1);
     font-size: 14px;
 }
 .group-users li a {

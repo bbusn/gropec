@@ -152,11 +152,11 @@ class UserController {
             if ($result) {
                 $this->join_group($code);
             } else {
-                header('Location: ' . ROOT . 'group');
+                header('Location: ' . ROOT . 'group/create');
                 exit();
             }
         } else {
-            header('Location: ' . ROOT . 'group');
+            header('Location: ' . ROOT . 'group/create');
             exit();
         }
     }

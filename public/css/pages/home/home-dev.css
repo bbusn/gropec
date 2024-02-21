@@ -1,0 +1,30 @@
+.home {
+    height: 50%;
+}
+h1 {
+    width: 100%;
+    font-size: 28px;
+    font-weight: 300;
+}
+.updates {
+    gap: 10px;
+    width: 100%;
+    color: var(--white);
+}
+.update {
+    gap: 10px;
+    text-align: center;
+    background: var(--quinaryColor);
+    width: 90%;
+    height: 100px;
+}
+.upgrade {
+    font-size: 14px;
+    color: var(--secondaryColorDark);
+}
+h2 {
+    color: var(--primaryColor);
+}
+h3 {
+    color: var(--secondaryColorDark);
+}

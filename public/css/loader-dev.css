@@ -331,14 +331,6 @@ ___________________________________*/
 * {
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
-*::-moz-selection {
-    background: var(--tertiaryColor);
-    color: var(--primaryColor);
-}
-*::selection {
-    background: var(--tertiaryColor);
-    color: var(--primaryColor);
-}
 /*________ DISAPPEAR ________*/
 @-webkit-keyframes disappear {
     0% {

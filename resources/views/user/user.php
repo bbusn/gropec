@@ -23,21 +23,34 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/loader.php'); ?>
             <?php require('resources/views/layout/orientation_block.php'); ?>
             <?php require('resources/views/layout/header.php'); ?>
-            <div class="main-container user flex-center-center flex-column">
-                <div id="title" class="flex-center-center flex-column">
-                    <img src="<?= ROOT ?>public/images/logo.webp" alt="gropec-logo" width="54" height="54">
-                    <h1>Bonjour<?php if (isset($_SESSION['user']['username'])){echo  ", <span>". $_SESSION['user']['username'] . "</span>";}?></h1>
+            <div class="main-container user flex-evenly-center flex-column">
+                <div id="title" class="flex-center-start flex-column">
+                    <h1><span><?= $_SESSION['user']['username'] ?></span></h1>
+                    <?php if (isset($_SESSION['user']['group'])) : ?>
+                    <h2>Dans le groupe "<?= $_SESSION['user']['group']['name'] ?>"</h2>
+                    <?php else : ?>
+                    <h2>Aucun groupe</h2>
+                    <?php endif; ?>
+                    <h3>Inscrit depuis le <?= $created[0] ?></h3>
                 </div>
-                <?php if (isset($_SESSION['user'])) : ?>
-                <div class="flex-center-center flex-column">
-                    <h2>Vous êtes inscrit depuis le</h2>
-                    <h2><?= $created[0] ?> à <?= $created[1] ?></h2>
-                </div>
+               <div class="user-actions flex-center-center flex-column">
+                    <a href="<?= ROOT ?>user/performances" class="user-action flex-center-center">
+                        <img src="<?= ROOT ?>public/images/icons/performances.svg" alt="performances-icon" width="15" height="15">Performances
+                    </a>
+                    <a href="<?= ROOT ?>user/history" class="user-action flex-center-center">
+                        <img src="<?= ROOT ?>public/images/icons/history.svg" alt="journal-icon" width="15" height="15">Historique
+                    </a>
+                    <a href="<?= ROOT ?>user/statistics" class="user-action flex-center-center">
+                        <img src="<?= ROOT ?>public/images/icons/statistics.svg" alt="statistics-icon" width="15" height="15">Statistiques
+                    </a>
+                    <a href="<?= ROOT ?>user/settings" class="user-action flex-center-center">
+                        <img src="<?= ROOT ?>public/images/icons/settings.svg" alt="settings-icon" width="15" height="15">Paramètres
+                    </a>
+               </div>
                 <form class="sign-out-form flex-center-center flex-column" action="" method="post">
                     <input type="hidden" name="sign-out">
-                    <input type="submit" value="Se déconnecter" class="quaternary-button flex-center-center">
+                    <input type="submit" value="Se déconnecter" class="primary-button flex-center-center">
                 </form>
-                <?php endif; ?>
             </div>
             <?php require('resources/views/layout/footer.php'); ?>
         </div>

@@ -140,6 +140,10 @@ class UserController {
             exit();
         }
     }
+    /*____________ SETTINGS VIEW ____________*/
+    public function settings_view() {
+        require('resources/views/user/settings.php');
+    }
     /*____________ CREATE GROUP VIEW ____________*/
     public function create_group_view() {
         require('resources/views/group/create_group.php');

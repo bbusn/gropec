@@ -3,12 +3,7 @@
 <!-- GROUP -->
 <?php 
 
-if (isset($_SESSION['user']['group'])) {
-    $title = $_SESSION['user']['group']['name'];  
-} else {
-    $title = 'Groupe d\'amis';  
-}
-
+$title = 'Groupe d\'amis';  
 $buttons = true;
 $footer = true;
 $links = '
@@ -69,7 +64,7 @@ require('resources/views/layout/head.php');
                     <form class="group-actions flex-center-center flex-column no-select" action="" method="post">
                         <div class="flex-center-center flex-column">
                             <input type="hidden" name="join-group">
-                            <input type="text" placeholder="COD3GROUP3" name="code">
+                            <input type="text" placeholder="Code du groupe" name="code">
                             <input type="submit" class="flex-center-center primary-button" value="Rejoindre le groupe">
                         </div>
                         <h2>ou</h2>                    

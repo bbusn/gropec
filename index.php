@@ -21,10 +21,12 @@ require('app/models/Database.php');
 /*____________ CONTROLLERS ____________*/
 require('app/controllers/HomeController.php');
 require('app/controllers/UserController.php');
+require('app/controllers/AddController.php');
 require('app/controllers/ErrorController.php');
 
 $homeController = new HomeController($conn);
 $userController = new UserController($conn);
+$addController = new AddController($conn);
 $errorController = new ErrorController();
 
 
@@ -136,8 +138,7 @@ try {
                 /*________________ USER SETTINGS ________________*/
                 } elseif ($route == 'settings') {
                     if (isset($_SESSION['user'])) {
-                        new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
-                        $errorController->error_503();
+                        $userController->settings_view();
                     } else {
                         new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
                         header('Location: ' . ROOT . 'user/sign-in');
@@ -294,14 +295,34 @@ try {
             } elseif ($subname == 'add') {
                 /*________________ ADD PAGE ________________*/
                 if ($route == '') {
-                if (isset($_SESSION['user'])) {
-                    new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
-                    $errorController->error_503();
-                } else {
-                    new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
-                    header('Location: ' . ROOT . 'user/sign-in');
-                    exit();
-                }
+                    if (isset($_SESSION['user'])) {
+                        $addController->add_view();
+                    } else {
+                        new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                        header('Location: ' . ROOT . 'user/sign-in');
+                        exit();
+                    }
+                /*________________ ADD TRAINING ________________*/
+                } elseif ($route == 'training') {
+                    if (isset($_SESSION['user'])) {
+                        new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
+                        $errorController->error_503();
+                    } else {
+                        new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                        header('Location: ' . ROOT . 'user/sign-in');
+                        exit();
+                    }
+                   
+                /*________________ ADD PERFORMANCE ________________*/
+                } elseif ($route == 'performance') {
+                    if (isset($_SESSION['user'])) {
+                        new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
+                        $errorController->error_503();
+                    } else {
+                        new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                        header('Location: ' . ROOT . 'user/sign-in');
+                        exit();
+                    }
                 /*________________ ADD ERROR 404 ________________*/
                 } else {
                     new AlertModel('error', 'La page demandée n\'existe pas.');

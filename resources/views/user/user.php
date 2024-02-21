@@ -47,10 +47,6 @@ require('resources/views/layout/head.php');
                         <img src="<?= ROOT ?>public/images/icons/settings.svg" alt="settings-icon" width="15" height="15">Paramètres
                     </a>
                </div>
-                <form class="sign-out-form flex-center-center flex-column" action="" method="post">
-                    <input type="hidden" name="sign-out">
-                    <input type="submit" value="Se déconnecter" class="primary-button flex-center-center">
-                </form>
             </div>
             <?php require('resources/views/layout/footer.php'); ?>
         </div>

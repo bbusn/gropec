@@ -1,0 +1,10 @@
+#title {
+    margin-top: -150px;
+}
+h1 {
+    color: var(--primaryColor);
+    font-size: 28px;
+}
+.sign-out-form {
+    width: 90%;
+}

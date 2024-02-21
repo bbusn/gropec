@@ -1,0 +1,39 @@
+#title {
+    margin-top: -200px;
+}
+h1 {
+    font-size: 28px;
+    color: var(--primaryColor);
+}
+.add-actions {
+    width: 70%;
+}
+.add-action {
+    transition: filter 0.3s, transform 0.3s;
+    position: relative;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+}
+.add-action:hover {
+    transition: filter 0.3s, transform 0.3s;
+    filter: brightness(0.7);
+}
+.add-action:active {
+    transition: filter 0.3s, transform 0.3s;
+    transform: scale(0.9);
+}
+.add-action.performance {
+    background: var(--quinaryColor);
+}
+.add-action.training {
+    background: var(--primaryColorDark);
+}
+.add-action p {
+    position: absolute;
+    top: 130%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: var(--secondaryColorDark);
+}

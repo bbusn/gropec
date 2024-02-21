@@ -3,7 +3,12 @@
 <!-- GROUP -->
 <?php 
 
-$title = 'Groupe d\'amis';  
+if (isset($_SESSION['user']['group'])) {
+    $title = $_SESSION['user']['group']['name'];  
+} else {
+    $title = 'Groupe d\'amis';  
+}
+
 $buttons = true;
 $footer = true;
 $links = '

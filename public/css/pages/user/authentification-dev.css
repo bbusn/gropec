@@ -2,23 +2,15 @@
     margin-top: 40px;
     gap: 5px;
 }
-.authentification .back-install {
-    margin-top: 10px;
+.authentification form {
+    width: 100%;
 }
 .authentification form label {
-    min-width: 90%;
-    max-width: 90%;
     text-align: left;
-    font-size: 18px;
-    color: var(--white);
 }
 .authentification form input {
     margin-bottom: 10px;
 }
 .authentification form input[type="submit"] {
     margin-top: 10px;
-}
-.authentification .sign-up input[type="text"], .authentification .sign-up input[type="password"] {
-    height: 28px;
-    padding: 0 28px;
 }

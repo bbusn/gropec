@@ -1,0 +1,10 @@
+h1 {
+    color: var(--primaryColor);
+    font-size: 28px;
+}
+.settings {
+    gap: 30px;
+}
+.sign-out-form {
+    width: 90%;
+}

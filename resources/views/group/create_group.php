@@ -3,7 +3,8 @@
 <!-- GROUP -->
 <?php 
 
-$title = 'Créer un groupe';  
+$title = 'Créer un groupe';
+$return = true;
 $buttons = true;
 $footer = true;
 $links = '
@@ -24,17 +25,18 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/loader.php'); ?>
             <?php require('resources/views/layout/orientation_block.php'); ?>
             <?php require('resources/views/layout/header.php'); ?>
-            <div class="main-container group flex-evenly-center flex-column">
+            <main class="group flex-evenly-center flex-column">
                 <div id="title" class="flex-center-center flex-column">
                     <h1>Créer votre propre groupe d'amis</h1>
-                    <h2>Inviter vos amis grâce au code unique. 9 personnes maximum</h2>
+                    <h2>Inviter jusqu'à 9 personnes à l'aide du code unique.</h2>
                 </div>
                 <form class="group-actions flex-center-center flex-column no-select" action="" method="post">
                     <input type="hidden" name="create-group">
-                    <input type="text" placeholder="Nom du groupe" name="name">
+                    <label for="name">Nom du groupe</label>
+                    <input type="text" id="name" name="name">
                     <input type="submit" class="flex-center-center primary-button" value="Créer le groupe">
                 </form>
-            </div>
+            </main>
             <?php require('resources/views/layout/footer.php'); ?>
         </div>
     </div>

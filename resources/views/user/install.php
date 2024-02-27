@@ -19,7 +19,7 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/loader.php'); ?>
             <?php require('resources/views/layout/header.php'); ?>
             <?php require('resources/views/layout/orientation_block.php'); ?>
-            <div class="main-container install flex-center-center flex-column  no-select">
+            <main class="install flex-center-center flex-column no-select">
                 <div id="title" class="flex-center-center flex-column">
                     <img src="<?= ROOT ?>public/images/logo.webp" alt="gropec-logo" width="54" height="54">
                     <h1>Gropec</h1>
@@ -28,7 +28,6 @@ require('resources/views/layout/head.php');
                 <button id="install" class="primary-button flex-center-center">Installer</button>
                 <button id="web" class="tertiary-button flex-center-center">Utiliser la version web</button>
                 <div class="infos flex-center-center flex-column">
-                    <p class="help flex-center-center">Si le bouton "installer" ne fonctionne pas, cherchez l'option pour l'installer vous-même sur votre navigateur. Si elle est n'est pas présente, cliquez sur utiliser la version web (moins optimisée).</p>
                     <div class="legal flex-center-center">
                         <a href="<?= ROOT ?>privacy">Confidentialité</a>
                         <a href="<?= ROOT ?>terms">Mentions légales</a>
@@ -43,7 +42,7 @@ require('resources/views/layout/head.php');
                 <form id="web-form" action="" method="post">
                     <input type="hidden" name="web">
                 </form>
-            </div>
+            </main>
         </div>
     </div>
 </body>

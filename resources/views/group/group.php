@@ -25,7 +25,7 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/loader.php'); ?>
             <?php require('resources/views/layout/orientation_block.php'); ?>
             <?php require('resources/views/layout/header.php'); ?>
-            <div class="main-container group flex-between-center flex-column">
+            <main class="group flex-evenly-center flex-column">
                 <?php if (isset($_SESSION['user']['group'])) : ?>
                     <div id="title" class="flex-center-center flex-column">
                         <h1><span><?= $_SESSION['user']['group']['name'] ?></span></h1>
@@ -36,14 +36,14 @@ require('resources/views/layout/head.php');
                             <?php foreach ($_SESSION['user']['group']['users'] as $user) : ?>
                                 <?php if ($user['username'] === $_SESSION['user']['username']) : ?>
                                     <li>
-                                        <a class="user flex-center-center flex-column" href="<?= ROOT ?>user">
+                                        <a class="user flex-start-center flex-column" href="<?= ROOT ?>user">
                                             <span></span>
                                             (vous)
                                         </a>
                                     </li>
                                 <?php else : ?>
                                     <li>
-                                        <a class="flex-center-center flex-column" href="<?= ROOT ?>group/user/<?= $user['username'] ?>">
+                                        <a class="flex-start-center flex-column" href="<?= ROOT ?>group/user/<?= $user['username'] ?>">
                                             <span></span>
                                             <?= $user['username'] ?>
                                         </a>
@@ -64,14 +64,15 @@ require('resources/views/layout/head.php');
                     <form class="group-actions flex-center-center flex-column no-select" action="" method="post">
                         <div class="flex-center-center flex-column">
                             <input type="hidden" name="join-group">
-                            <input type="text" placeholder="Code du groupe" name="code">
+                            <label for="code">Code de groupe</label>
+                            <input type="text" id="code" name="code">
                             <input type="submit" class="flex-center-center primary-button" value="Rejoindre le groupe">
                         </div>
                         <h2>ou</h2>                    
                         <a href="<?= ROOT ?>group/create" class="flex-center-center secondary-button">Créer un groupe</a>
                     </form>
                 <?php endif; ?>
-            </div>
+            </main>
             <?php require('resources/views/layout/footer.php'); ?>
         </div>
     </div>

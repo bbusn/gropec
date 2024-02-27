@@ -12,14 +12,14 @@ footer nav, footer ul {
 }
 .nav-link {
     width: 30px;
-    height: 40px;
+    height: 45px;
     -webkit-tap-highlight-color: transparent;
     -webkit-transition: opacity 0.3s, -webkit-filter 0.3s;
     -o-transition: opacity 0.3s, filter 0.3s;
     transition: opacity 0.3s, filter 0.3s, -webkit-filter 0.3s;
     font-family: var(--primaryFont);
     font-weight: 800;
-    font-size: 12px;
+    font-size: 15px;
     opacity: 0.5;
     color: var(--navLinkColor);
     -webkit-filter: grayscale(100%);

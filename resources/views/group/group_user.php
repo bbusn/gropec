@@ -5,6 +5,7 @@
 
 $title = 'Profil de ' . $_SESSION['user']['group']['user']['username'];
 $created = explode(' ', $_SESSION['user']['group']['user']['created']);
+$return = true;
 $buttons = true;
 $footer = true;
 $links = '
@@ -23,14 +24,14 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/loader.php'); ?>
             <?php require('resources/views/layout/orientation_block.php'); ?>
             <?php require('resources/views/layout/header.php'); ?>
-            <div class="main-container user flex-center-center flex-column">
+            <main class="user flex-center-center flex-column">
                 <div id="title" class="flex-center-center flex-column">
                     <img src="<?= ROOT ?>public/images/logo.webp" alt="gropec-logo" width="54" height="54">
                     <h1><span><?= $_SESSION['user']['group']['user']['username'] ?></span></h1>
                     <h2>Inscrit depuis le</h2>
                     <h2><?= $created[0] ?> à <?= $created[1] ?></h2>
                 </div>
-            </div>
+            </main>
             <?php require('resources/views/layout/footer.php'); ?>
         </div>
     </div>

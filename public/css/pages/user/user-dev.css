@@ -5,6 +5,7 @@
     gap: 20px;
     width: 90%;
 }
+
 .user-action {
     -webkit-transition: -webkit-transform 0.3s, -webkit-filter 0.3s;
     transition: -webkit-transform 0.3s, -webkit-filter 0.3s;
@@ -12,16 +13,17 @@
     transition: transform 0.3s, filter 0.3s;
     transition: transform 0.3s, filter 0.3s, -webkit-transform 0.3s, -webkit-filter 0.3s;
     -webkit-box-sizing: border-box;
-            box-sizing: border-box;
+    box-sizing: border-box;
     color: var(--secondaryColor);
     text-decoration: none;
     font-weight: lighter;
-    font-size: 16px;
+    font-size: 18px;
     background: var(--quinaryColor);
     width: 100%;
-    height: 55px;
+    height: 65px;
     gap: 15px;
 }
+
 .user-action:hover {
     -webkit-transition: -webkit-transform 0.3s, -webkit-filter 0.3s;
     transition: -webkit-transform 0.3s, -webkit-filter 0.3s;
@@ -29,8 +31,9 @@
     transition: transform 0.3s, filter 0.3s;
     transition: transform 0.3s, filter 0.3s, -webkit-transform 0.3s, -webkit-filter 0.3s;
     -webkit-filter: brightness(1.3);
-            filter: brightness(1.3);
+    filter: brightness(1.3);
 }
+
 .user-action:active {
     -webkit-transition: -webkit-transform 0.3s, -webkit-filter 0.3s;
     transition: -webkit-transform 0.3s, -webkit-filter 0.3s;
@@ -38,21 +41,25 @@
     transition: transform 0.3s, filter 0.3s;
     transition: transform 0.3s, filter 0.3s, -webkit-transform 0.3s, -webkit-filter 0.3s;
     -webkit-transform: scale(0.8);
-        -ms-transform: scale(0.8);
-            transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    transform: scale(0.8);
 }
+
 #title {
     gap: 5px;
     width: 90%;
 }
+
 h1 {
     font-size: 35px;
 }
+
 h2 {
-    font-size: 16px;
+    font-size: 20px;
 }
+
 h3 {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 400;
     color: var(--tertiaryColorLight);
 }

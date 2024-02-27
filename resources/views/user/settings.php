@@ -5,6 +5,7 @@
 
 $title = 'Paramètres';
 $buttons = true;
+$return = true;
 $footer = true;
 $links = '
     <!-- SETTINGS.CSS -->
@@ -21,7 +22,7 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/loader.php'); ?>
             <?php require('resources/views/layout/orientation_block.php'); ?>
             <?php require('resources/views/layout/header.php'); ?>
-            <div class="main-container settings flex-center-center flex-column">
+            <main class="settings flex-center-center flex-column">
                 <div id="title" class="flex-center-center flex-column">
                     <h1>Paramètres</h1>
                 </div>
@@ -29,7 +30,7 @@ require('resources/views/layout/head.php');
                     <input type="hidden" name="sign-out">
                     <input type="submit" value="Se déconnecter" class="quaternary-button flex-center-center">
                 </form>
-            </div>
+            </main>
             <?php require('resources/views/layout/footer.php'); ?>
         </div>
     </div>

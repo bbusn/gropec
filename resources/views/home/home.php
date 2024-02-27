@@ -22,7 +22,7 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/loader.php'); ?>
             <?php require('resources/views/layout/orientation_block.php'); ?>
             <?php require('resources/views/layout/header.php'); ?>
-            <div class="main-container home flex-between-center flex-column">
+            <main class="home flex-evenly-center flex-column">
                 <div id="title" class="flex-center-start flex-column">
                     <h1>Bonjour, <span><?= $_SESSION['user']['username'] ?></span></h1>
                 </div>
@@ -35,7 +35,7 @@ require('resources/views/layout/head.php');
                         <?php endforeach; ?>
                     </div>
                 </div>
-            </div>
+            </main>
             <?php require('resources/views/layout/footer.php'); ?>
         </div>
     </div>

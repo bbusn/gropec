@@ -51,7 +51,6 @@ table {
 }
 /*________ HTMl, BODY ________*/
 html {
-    font-size: 1.8vw;
     font-family: var(--primaryFont);
 }
 body {
@@ -94,7 +93,7 @@ body {
     overflow: hidden;
     width: 100%;
     height: 100%;
-    max-width: 320px;
+    max-width: 335px;
     max-height: 650px;
     background: var(--tertiaryColor);
     border-radius: 30px;
@@ -240,9 +239,9 @@ body {
 ___________________________________*/
 @media screen and (orientation: landscape) and (max-width: 940px) {
     #orientation-block {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
+        display: -webkit-box !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
     }
     #app-container {
         max-width: 100%;
@@ -255,22 +254,14 @@ ___________________________________*/
         border-radius: 0;
     }
 }
-@media screen and (orientation: portrait) {
-    #orientation-block {
-        display: none;
-    }
-}
 @media screen and (max-width: 440px) and (min-width: 0px) and (orientation: portrait) {
-    html {
-        font-size: 1.6vw;
-    }
     #app-container {
         width: 100%;
         height: 100%;
         max-width: 440px;
-        max-height: 940px;
+        max-height: 100vh;
         border-radius: 0px;
-        background: var(--white);
+        background: none;
     }
     #app {
         width: 100%;
@@ -278,29 +269,13 @@ ___________________________________*/
         border-radius: 0px;
     }
 }
-
-/* MEDIA QUERY 390px
-___________________________________*/
-@media screen and (max-width: 390px) {
-    html {
-        font-size: 1.4vw;
-    }
-}
-
-/* MEDIA QUERY 340px
-___________________________________*/
-@media screen and (max-width: 340px) {
-    html {
-        font-size: 1.2vw;
-    }
-}
 /* MEDIA QUERY Height 480px
 ___________________________________*/
 @media screen and (max-height: 600px) and (min-height: 0px) {
     #orientation-block {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
+        display: -webkit-box !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
     }
 }
 #orientation-block {

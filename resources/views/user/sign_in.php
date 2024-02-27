@@ -4,7 +4,10 @@
 <?php 
 
 $title = 'Se connecter';
+$top_title = $title;
 $footer = true;
+$return = true;
+$return_installation = true;
 $buttons = true;
 $links = '
     <!-- AUTHENTIFICATION.CSS -->
@@ -23,11 +26,7 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/loader.php'); ?>
             <?php require('resources/views/layout/orientation_block.php'); ?>
             <?php require('resources/views/layout/header.php'); ?>
-            <div class="main-container authentification flex-center-center flex-column no-select">
-                <div id="title" class="flex-center-center flex-column">
-                    <img src="<?= ROOT ?>public/images/logo.webp" alt="gropec-logo" width="54" height="54">
-                    <h1>Se connecter</h1>
-                </div>
+            <main class="authentification flex-center-center flex-column no-select">
                 <form class="sign-in flex-center-center flex-column" action="" method="post">
                     <label for="username">Nom d'utilisateur</label>
                     <input type="text" id="username" name="username">                        
@@ -36,13 +35,7 @@ require('resources/views/layout/head.php');
                     <input type="submit" class="primary-button flex-center-center" value="Se connecter">
                     <a class="secondary-button flex-center-center" href="<?= ROOT ?>user/sign-up">Je n'ai pas de compte</a>
                 </form>
-                <?php if (!isset($_SESSION['app'])): ?>
-                <form class="back-install" action="" method="post">
-                    <input type="hidden" name="back-install">
-                    <input type="submit" class="tertiary-button flex-center-center" value="Revenir à l'installation">
-                </form>
-                <?php endif; ?>
-            </div>
+            </main>
             <?php require('resources/views/layout/footer.php'); ?>
         </div>
     </div>

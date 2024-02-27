@@ -305,7 +305,9 @@ try {
                 /*________________ ADD TRAINING ________________*/
                 } elseif ($route == 'training') {
                     if (isset($_SESSION['user'])) {
-                        $addController->add_training_view();
+                        new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
+                        $errorController->error_503();
+                        // $addController->add_training_view();
                     } else {
                         new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
                         header('Location: ' . ROOT . 'user/sign-in');

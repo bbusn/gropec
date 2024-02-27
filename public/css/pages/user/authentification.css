@@ -1,16 +1,1 @@
-.authentification form:first-of-type {
-    margin-top: 40px;
-    gap: 5px;
-}
-.authentification form {
-    width: 100%;
-}
-.authentification form label {
-    text-align: left;
-}
-.authentification form input {
-    margin-bottom: 10px;
-}
-.authentification form input[type="submit"] {
-    margin-top: 10px;
-}
+.authentification form:first-of-type {gap: 2.5px;}.authentification form {width: 100%;}.authentification form label {text-align: left;}.authentification form input {margin-bottom: 10px;}.authentification form input[type="submit"] {margin-top: 10px;}

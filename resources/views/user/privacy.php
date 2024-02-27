@@ -3,7 +3,7 @@
 <!-- PRIVACY -->
 <?php 
 
-$title = 'Politique de Confidentialité';
+$title = 'Confidentialité';
 $top_title = $title;
 $return = true;
 $scroll = true;

@@ -1,6 +1,5 @@
 .authentification form:first-of-type {
-    margin-top: 40px;
-    gap: 5px;
+    gap: 2.5px;
 }
 .authentification form {
     width: 100%;

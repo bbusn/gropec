@@ -1,5 +1,5 @@
 <!-- HEADER -->
-<header class="flex-center-center flex-column">
+<header class="flex-center-center flex-column <?php if (isset($return)) : ?>background<?php endif; ?>">
     <div class="header-container flex-start-center">
         <div class="header-main flex-start-center">
             <?php if (isset($return)) : ?>

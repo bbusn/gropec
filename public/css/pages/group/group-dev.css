@@ -12,9 +12,6 @@ h1 {
     gap: 10px;
     width: 100%;
 }
-.group-actions.flex-center-center.flex-column input[type="text"] {
-    color: var(--quaternaryColorLight1);
-}
 .group-users li a {
     box-sizing: border-box;
     word-break: break-all;

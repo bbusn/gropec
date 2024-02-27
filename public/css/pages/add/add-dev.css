@@ -6,28 +6,13 @@ h1 {
     color: var(--primaryColor);
 }
 .add-actions {
-    width: 70%;
+    width: 100%;
 }
-.add-action {
-    transition: filter 0.3s, transform 0.3s;
-    position: relative;
-    border-radius: 50%;
-    height: 60px;
-    width: 60px;
+.add-actions {
+    gap: 10px;
 }
-.add-action:hover {
-    transition: filter 0.3s, transform 0.3s;
-    filter: brightness(0.7);
-}
-.add-action:active {
-    transition: filter 0.3s, transform 0.3s;
-    transform: scale(0.9);
-}
-.add-action.performance {
-    background: var(--quinaryColor);
-}
-.add-action.training {
-    background: var(--primaryColorDark);
+.add-actions a {
+    gap: 20px;
 }
 .add-action p {
     position: absolute;

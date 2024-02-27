@@ -15,11 +15,9 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/orientation_block.php'); ?>
             <?php require('resources/views/layout/header.php'); ?>
             <main class="404 flex-center-center flex-column">
-                <div id="title" class="flex-center-center flex-column">
-                    <img src="<?= ROOT ?>public/images/logo.webp" class="no-select" alt="gropec-logo" width="54" height="54">
-                    <h1>Erreur 404</h1>
-                    <h2>Cette page n'existe pas ou n'a pas encore été créée. Utilisez la navigation pour revenir à l'accueil.</h2>
-                </div>
+                <img src="<?= ROOT ?>public/images/logo.webp" class="no-select" alt="gropec-logo" width="54" height="54">
+                <h1>Erreur 404</h1>
+                <h2>Cette page n'existe pas ou n'a pas encore été créée. Utilisez la navigation pour revenir à l'accueil.</h2>
             </main>
             <?php require('resources/views/layout/footer.php'); ?>
         </div>

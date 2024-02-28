@@ -34,6 +34,14 @@ class UserController {
             exit();
         }
     }
+    /*____________ HISTORY VIEW ____________*/
+    public function history_view() {
+        $data = $this->userModel->get_history();
+        if ($data) {
+            $this->userModel->session_add_history($data);
+        }
+        require('resources/views/user/history.php');
+    }
 
     /*____________ SIGN IN VIEW ____________*/
     public function sign_in_view() {

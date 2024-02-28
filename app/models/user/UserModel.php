@@ -487,6 +487,22 @@ class UserModel {
             return false;
         }
     }
+    /*____________ GET HISTORY ____________*/
+    public function get_history() {
+        //_______ USER ID _______//
+        $user_id = $_SESSION['user']['id'];
+        if (!empty($user_id)) {
+            $stmt = $this->conn->prepare('SELECT * FROM gpc_training WHERE user_id = :user_id');
+            $stmt->bindParam(':user_id', $user_id);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } else {
+            //_______ NO USER ID _______//
+            new AlertModel('error', 'Impossible d\'afficher l\'historique des entrainements, vous n\'êtes pas connecté.');
+            return false;
+        }
+    }
     /*____________ GENERATE GROUP CODE____________*/
     public function generate_group_code() {
         do {
@@ -528,6 +544,10 @@ class UserModel {
         $_SESSION['user']['created'] = $data['created'];
         $_SESSION['user']['id'] = $data['id'];
         $_SESSION['user']['group_id'] = $data['group_id'];
+    }
+    /*____________ SESSION ADD HISTORY ____________*/
+    public function session_add_history($data) {
+        $_SESSION['user']['history'] = $data;
     }
     /*____________ SESSION SIGN OUT ____________*/
     public function session_sign_out() {

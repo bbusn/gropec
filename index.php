@@ -157,8 +157,7 @@ try {
                 /*________________ USER HISTORY ________________*/
                 } elseif ($route == 'history') {
                     if (isset($_SESSION['user'])) {
-                        new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
-                        $errorController->error_503();
+                        $userController->history_view();
                     } else {
                         new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
                         header('Location: ' . ROOT . 'user/sign-in');
@@ -305,9 +304,15 @@ try {
                 /*________________ ADD TRAINING ________________*/
                 } elseif ($route == 'training') {
                     if (isset($_SESSION['user'])) {
-                        new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
-                        $errorController->error_503();
-                        // $addController->add_training_view();
+                        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                            $addController->add_training_view();
+                        } else {
+                            require('app/utilities/SanitizeData.php');
+                            $sport = sanitize_form_data($_POST['sport']);
+                            $time = sanitize_form_data($_POST['time']);
+                            $user_id = $_SESSION['user']['id'];
+                            $addController->add_training($sport, $time, $user_id);
+                        }
                     } else {
                         new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
                         header('Location: ' . ROOT . 'user/sign-in');

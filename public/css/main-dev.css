@@ -144,7 +144,7 @@ header.background {
 .header-container {
     width: 80%;
 }
-.header-main:first-child {
+.header-return {
     margin-right: 25px;
 }
 #return, #return-installation {
@@ -216,7 +216,7 @@ header.background {
 h1 {
     text-align:center;
     font-weight: 900;
-    font-size: 24px;
+    font-size: 26px;
     color: var(--white);
 }
 h1 span {

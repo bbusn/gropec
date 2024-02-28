@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 20 fév. 2024 à 17:12
+-- Généré le : mer. 28 fév. 2024 à 13:43
 -- Version du serveur : 8.2.0
 -- Version de PHP : 8.3.0
 
@@ -50,16 +50,14 @@ CREATE TABLE IF NOT EXISTS `gpc_group` (
   `name` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
   `code` varchar(8) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `gpc_group`
 --
 
 INSERT INTO `gpc_group` (`id`, `name`, `code`) VALUES
-(9, 'Picsou', 'F0GV2ATW'),
-(19, 'Fabrice éboué', 'U19DOJ8T'),
-(20, 'Fabrice éboué', 'JKEULBTD');
+(16, 'Zguegos', 'JK48VYLA');
 
 -- --------------------------------------------------------
 
@@ -89,6 +87,7 @@ CREATE TABLE IF NOT EXISTS `gpc_training` (
   `user_id` int NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `time` int NOT NULL,
+  `sport` enum('musculation','running','cycling','boxing','calisthenics') COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -106,25 +105,22 @@ CREATE TABLE IF NOT EXISTS `gpc_user` (
   `group_id` int DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
 -- Déchargement des données de la table `gpc_user`
 --
 
 INSERT INTO `gpc_user` (`id`, `username`, `password`, `group_id`, `created`) VALUES
-(19, 'admin', '$2y$10$DFwbRF7wUuUZAX2PimQYgOOdBFWc7KVhA14uYfxClOFXCLyFfh.R.', 20, '2023-12-03 19:57:23'),
-(21, 'busnardb', '$2y$10$GeWtwm3Dj5lHfF.Xj8Bxc./4ERIYICHBmnU38PeeckGer62W6ryjG', 9, '2024-02-16 07:48:39'),
-(22, '111', '$2y$10$GO6w.InQxZsk4h7jBo3bQ.kXP7AzxTKAu8BlWJ3V2szWYlh.qE0bO', 9, '2024-02-20 15:13:49'),
-(23, '112', '$2y$10$cmGUpDLs7UvPLJTBZJtQCOvBJM1fdWsuoUNyneUaSVOqQzeZBJH3m', 9, '2024-02-20 15:16:18'),
-(24, '113', '$2y$10$8yrX3U0IzU3WSW/T.kfMf.zaZAiyd7ftKW2KUhTZrq6BH9NJlae7C', 9, '2024-02-20 15:16:58'),
-(25, '114', '$2y$10$fSj6x2MUye4TFxQVd4lCbuZK9.RdTMKdDmNAiXYTkIlh03601R2N.', 9, '2024-02-20 15:17:43'),
-(26, 'wwwwwwwwwwwwwww', '$2y$10$DU09D9ZSjfcgOZT0YzpmXeoP.QyJaaBxXqD0Iga2C1Rd4AN7GpPDm', 9, '2024-02-20 15:21:18'),
-(27, '115', '$2y$10$wgCwKwfb1er4vHQz13N7ZuVCjUj6AS.g6CuwpMwngFMjSghnJ/XYG', NULL, '2024-02-20 15:23:35'),
-(28, '116', '$2y$10$8M5ceVwPDBXR.a47a4EhrOpN7U3cirfZQT1wpGgddyCNdyYP.XI9O', NULL, '2024-02-20 15:25:51'),
-(29, 'wwwwwwwwwwwwww2', '$2y$10$7JSink8U8XR8wFna0zfUH.9sdBfzjzCzio/DuCHTWdsEL47wN4PqO', 9, '2024-02-20 15:26:18'),
-(30, 'wwwwwwwwwwwwww3', '$2y$10$.fwhJpNXOS0vDM/eWin9tuapVqYKSQpC2dW8B/HpKq9YLmIzzH0E2', 9, '2024-02-20 15:27:26'),
-(31, 'busnardbb', '$2y$10$Qfrm5Px81FMXoNVLX8L20u/iMVbSPfukh0WUd4GLYmeHiiF02uWny', 19, '2024-02-20 15:27:55');
+(19, 'admin', '$2y$10$DFwbRF7wUuUZAX2PimQYgOOdBFWc7KVhA14uYfxClOFXCLyFfh.R.', NULL, '2023-12-03 19:57:23'),
+(21, 'GazparLeBrakmar', '$2y$10$FhfDvWnhOpowC3Ind3xt0.5jk6jW0vJRvctfxH/8ihrAc/LrEkt/m', NULL, '2024-01-08 06:43:16'),
+(22, 'Maxxx', '$2y$10$AK236IbNNB/h6AMrjeOhM.ZnUGmV6svjp5MPw.Joe.Qn4D7oaZHxy', NULL, '2024-01-08 06:58:20'),
+(23, 'LeMaitre', '$2y$10$TN.BTZSZK8XFEIv6GsmzZu4Z5ogAj3BeCLvmhazbwXjn4zrcywmRy', NULL, '2024-01-08 10:07:05'),
+(25, 'Moumou', '$2y$10$Fp4PH8rORX0sRdCkGx6STuC10JSUkBApBj2V8m6DSolSQ3eONylCC', NULL, '2024-01-20 16:44:11'),
+(26, 'm_carron', '$2y$10$GlBkEttP5bKBXMO.TGtMC.WKKxaVY7aElsc1A4o7G1WiJXeNXr8cy', NULL, '2024-01-29 19:53:54'),
+(27, 'Nownoch', '$2y$10$kjEU0vByJbgvrS3PyNfn6u3SlQvkY9NLf1W8y0SncfHg7nQoweKE6', NULL, '2024-02-06 08:19:41'),
+(29, 'benoit', '$2y$10$BR.tkilPCOCXNVdRTMfW.OsbAoTM7s6fJYose50VcpcuNfyNMmzPS', 16, '2024-02-20 17:45:41'),
+(30, 'zgueg', '$2y$10$o/h7m6jerPMOBOaduKHotO1YWhJySl9d4WL6en8FtUO.yWcL3Z6TG', NULL, '2024-02-20 18:57:32');
 
 -- --------------------------------------------------------
 
@@ -139,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `gpc_version` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `description` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `gpc_version`
@@ -151,7 +147,8 @@ INSERT INTO `gpc_version` (`id`, `number`, `date`, `description`) VALUES
 (5, '0.3', '2024-01-08 19:22:46', 'Version App/Version web avec séparations fonctionnelles-Règlage affichage barre de navigation'),
 (6, '0.4', '2024-02-20 16:27:14', 'Réglages bugs visuels-Légère optimisation'),
 (7, '0.5', '2024-02-20 16:28:51', 'Optimisation temps de chargement-Réglage des transitions'),
-(8, '0.6', '2024-02-20 16:31:44', 'Ajout des groupes (Créer, rejoindre, quitter)-Dates d\'inscriptions');
+(8, '0.6', '2024-02-20 16:31:44', 'Ajout des groupes (Créer, rejoindre, quitter)-Dates d\'inscriptions'),
+(9, '0.7', '2024-02-21 19:51:26', 'Ajout de la page d\'accueil-Design de la page ajouter-Design des options de la page profil');
 
 -- --------------------------------------------------------
 

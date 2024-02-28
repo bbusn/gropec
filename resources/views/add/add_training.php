@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr-FR">
 <!-- ADD TRAINING -->
-<?php 
-
+<?php
 $title = 'Ajouter un entrainement';
+$buttons = true;
 $return = true;
 $footer = true;
 $links = '
@@ -22,23 +22,34 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/loader.php'); ?>
             <?php require('resources/views/layout/orientation_block.php'); ?>
             <?php require('resources/views/layout/header.php'); ?>
-            <main class="add flex-center-center flex-column">
+            <main class="add-training flex-evenly-center flex-column">
                 <div id="title" class="flex-center-center flex-column">
                     <h1>Je me suis entrainé</h1>
+                    <h2>Sélectionner le sport pratiqué et la durée de votre entrainement</h2>
                 </div>
-                <div class="add-actions flex-between-center no-select">
-                    <form method="post" action="">
-                        <label for="date">Date</label>
-                        <input type="date" id="date" name="date">
+                <form method="post" action="" class="add-actions flex-center-center no-select flex-column">
+                    <label for="sport">Sport</label>   
+                    <select name="sport" id="sport" class="flex-center-center">
+                        <option value="musculation">Musculation</option>
+                        <option value="running">Course à pied</option>
+                        <option value="cycling">Vélo</option>
+                        <option value="boxing">Boxe anglaise</option>
+                        <option value="calisthenics">Calisthénie</option>
+                    </select>
+                    <div class="time-container flex-center-center flex-column">
                         <label for="time">Durée</label>
-                        <input type="range" id="time" name="date">
-                        <input type="submit" value="Ajouter">
-                    </form>
-                </div>
+                        <div id="time-indicator">0
+                            <span>min</span>
+                        </div>
+                        <input type="range" id="time" name="time" min="0" max="180" steps="1" value="0">
+                    </div>
+                    <input class="primary-button" type="submit" value="Ajouter">
+                </form>
             </main>
             <?php require('resources/views/layout/footer.php'); ?>
         </div>
     </div>
+    <script src="<?= ROOT ?>public/js/training.js"></script>
 </body>
 </html>
 

@@ -1,0 +1,18 @@
+.history {
+    gap: 20px;
+}
+h1 {
+    font-size: 28px;
+    color: var(--primaryColor);
+}
+h2 {
+    width: 90%;
+}
+.history-container {
+    gap: 10px;
+    width: 100%;
+}
+.training {
+    width: 90%;
+    color: var(--white);
+}

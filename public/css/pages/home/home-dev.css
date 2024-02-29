@@ -12,7 +12,8 @@ h1 {
     gap: 10px;
     text-align: center;
     background: var(--quinaryColor);
-    width: 90%;
+    height: 33%;
+    width: 100%;
     padding: 10px 0px;
 }
 .upgrade {

@@ -1,9 +1,10 @@
 h1 {
     color: var(--primaryColor);
+    margin-bottom: 20px;
 }
 .settings {
-    gap: 30px;
+    gap: 25px;
 }
-.sign-out-form {
+form {
     width: 100%;
 }

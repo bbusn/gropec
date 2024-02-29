@@ -52,7 +52,9 @@ try {
         $urlSegments = explode('/', $url);
     
         $subname = isset($urlSegments[0]) ? $urlSegments[0] : '';        
-        $route = implode('/', array_slice($urlSegments, 1));
+        $route = isset($urlSegments[1]) ? $urlSegments[1] : '';   
+        $route_options = isset($urlSegments[2]) ? $urlSegments[2] : '';   
+        echo '<script>console.log("' . $route . ' et options : ' . $route_options . '")</script>';
         /*________________________________________*/
         /*  USER LAUNCHED APP OR WEB */
         /*________________________________________*/
@@ -137,13 +139,45 @@ try {
                     }
                 /*________________ USER SETTINGS ________________*/
                 } elseif ($route == 'settings') {
-                    if (isset($_SESSION['user'])) {
-                        $userController->settings_view();
+                    if ($route_options == '') {
+                        if (isset($_SESSION['user'])) {
+                            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                                if (isset($_POST['delete-account'])) {
+                                    $userController->delete_account();
+                                } else {
+                                    $userController->settings_view();
+                                }
+                            } else {
+                                $userController->settings_view();
+                            }
+                        } else {
+                            new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                            header('Location: ' . ROOT . 'user/sign-in');
+                            exit();
+                        }
+                    } elseif ($route_options == 'password') {
+                        if (isset($_SESSION['user'])) {
+                            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                                if (isset($_POST['modify-password'])) {
+                                    require('app/utilities/SanitizeData.php');
+                                    $oldPassword = sanitize_form_data($_POST['old-password']);
+                                    $password = sanitize_form_data($_POST['password']);
+                                    $passwordConfirm = sanitize_form_data($_POST['password-confirm']);
+                                    $userController->modify_password($oldPassword, $password, $passwordConfirm);
+                                }
+                            } else {
+                                $userController->modify_password_view();
+                            }
+                        } else {
+                            new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                            header('Location: ' . ROOT . 'user/sign-in');
+                            exit();
+                        }
                     } else {
-                        new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
-                        header('Location: ' . ROOT . 'user/sign-in');
-                        exit();
+                        new AlertModel('error', 'La page demandée n\'existe pas.');
+                        $errorController->error_404();
                     }
+                    
                 /*________________ USER STATISTICS ________________*/
                 } elseif ($route == 'statistics') {
                     if (isset($_SESSION['user'])) {
@@ -187,7 +221,7 @@ try {
                 /*________________ HOME PAGE ________________*/
                 if ($route == '') {
                     if (isset($_SESSION['user'])) {
-                        $homeController->home_view();
+                        $homeController->home_view();             
                     } else {
                         new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
                         header('Location: ' . ROOT . 'user/sign-in');

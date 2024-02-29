@@ -5,14 +5,12 @@
 
 $title = 'Groupe d\'amis';  
 $buttons = true;
+$inputs = true;
 $footer = true;
 $links = '
     <!-- GROUP.CSS -->
     <link rel="preload" href="' . ROOT . 'public/css/pages/group/group.css' . V_QUERY . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">
     <noscript><link rel="stylesheet" href="' . ROOT . 'public/css/pages/group/group.css' . V_QUERY . '"></noscript>
-    <!-- INPUTS.CSS -->
-    <link rel="preload" href="' . ROOT . 'public/css/components/inputs.css' . V_QUERY . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">
-    <noscript><link rel="stylesheet" href="' . ROOT . 'public/css/components/inputs.css' . V_QUERY . '"></noscript>
 ';
 
 

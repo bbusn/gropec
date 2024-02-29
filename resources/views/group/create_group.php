@@ -6,14 +6,12 @@
 $title = 'Créer un groupe';
 $return = true;
 $buttons = true;
+$inputs = true;
 $footer = true;
 $links = '
     <!-- CREATE_GROUP.CSS -->
     <link rel="preload" href="' . ROOT . 'public/css/pages/group/create-group.css' . V_QUERY . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">
     <noscript><link rel="stylesheet" href="' . ROOT . 'public/css/pages/group/create-group.css' . V_QUERY . '"></noscript>
-    <!-- INPUTS.CSS -->
-    <link rel="preload" href="' . ROOT . 'public/css/components/inputs.css' . V_QUERY . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">
-    <noscript><link rel="stylesheet" href="' . ROOT . 'public/css/components/inputs.css' . V_QUERY . '"></noscript>
 ';
 
 require('resources/views/layout/head.php'); 

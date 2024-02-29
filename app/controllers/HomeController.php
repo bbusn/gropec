@@ -14,7 +14,11 @@ class HomeController {
         $data = $this->homeModel->get_version();
         if ($data) {
             $this->homeModel->session_get_version($data);
-            require('resources/views/home/home.php');
+            $data = $this->homeModel->get_last_training();
+            if ($data) {
+                $this->homeModel->session_get_last_training($data);
+                require('resources/views/home/home.php');
+            }
         } else {
             header('Location: ' . ROOT . 'user');
             exit();

@@ -23,3 +23,18 @@
 ErrorDocument 404 /404
 ErrorDocument 403 /404
 ErrorDocument 503 /503
+
+#CACHE
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 year"
+
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+
+    <FilesMatch "^(index\.php)$">
+        ExpiresDefault "access plus 0 seconds"
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+    </FilesMatch>
+</IfModule>

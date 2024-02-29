@@ -76,52 +76,45 @@ class UserModel {
     }
   
  
-    /*____________ MODIFY ACCOUNT ____________*/
-    public function modify_account($oldPassword, $username, $password, $passwordConfirm) {
-        $oldUsername = $_SESSION['user']['username'];
+    /*____________ MODIFY PASSWORD ____________*/
+    public function modify_password($oldPassword, $password, $passwordConfirm) {
+        $username = $_SESSION['user']['username'];
         //_______ USERNAME EMPTY _______//
         if (empty($username)) {
-            new AlertModel('error', 'Veuillez renseigner un nom d\'utilisateur pour modifier votre compte.');
-            unset($_POST['username'], $_POST['password']);
+            new AlertModel('error', 'Vous n\'êtes pas connecté. Connectez vous pour modifier votre compte.');
+            unset($_POST['password']);
             return false;
         }
         //_______ OLD PASSWORD EMPTY _______//
         if (empty($oldPassword)) {
             new AlertModel('error', 'Veuillez rentrer votre mot de passe pour modifier votre compte.');
-            unset($_POST['username'], $_POST['password']);
+            unset($_POST['password']);
             return false;
         }
         //_______ PASSWORD, PASSWORD CONFIRM _______//
         if (empty($password) || empty($passwordConfirm)) {
-            $password = $oldPassword;
-            $passwordConfirm = $oldPassword;            
-        }
-        //_______ USERNAME CONFORM _______//
-        if ($oldUsername !== $username) {
-            if (!$this->username_conform($username)) {
-                return false;
-            }
-        } else {
-            $username = $oldUsername;
+            new AlertModel('error', 'Veuillez rentrer un nouveau mot de passe et le confirmer pour modifier votre compte.');
+            unset($_POST['password']);
+            return false;          
         }
         //_______ PASSWORD CONFORM _______//
         if (!$this->password_conform($password, $passwordConfirm)) {
             return false;
         } else {
             //_______ PASSWORD VERIFY _______//
-            if (!$this->password_verified($oldUsername, $oldPassword)) {
-                new AlertModel('error', 'L\'ancien mot de passe est incorrect.');
-                unset($_POST['username'], $_POST['password']);                     
+            if (!$this->password_verified($username, $oldPassword)) {
+                new AlertModel('error', 'Ancien mot de passe incorrect.');
+                unset($_POST['password']);                     
                 return false;
             } else {
                 //_______ MODIFY ACCOUNT _______//
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-                $query = "UPDATE gpc_user SET username = :username, password = :password WHERE username = :oldUsername";
+                $query = "UPDATE gpc_user SET username = :username, password = :password WHERE username = :username";
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindParam(':username', $username);
                 $stmt->bindParam(':password', $hashedPassword);
-                $stmt->bindParam(':oldUsername', $oldUsername);
+                $stmt->bindParam(':username', $username);
                 $result = $stmt->execute();
 
                 return $result;
@@ -131,8 +124,9 @@ class UserModel {
     /*____________ DELETE ACCOUNT ____________*/
     public function delete_account() {
         $username = $_SESSION['user']['username'];
+        $user_id = $_SESSION['user']['id'];
         //_______ USERNAME EMPTY _______//
-        if (empty($username)) {
+        if (empty($username) || empty($user_id)) {
             new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour supprimer votre compte.');
             unset($_POST['username']);
             return false;
@@ -142,6 +136,12 @@ class UserModel {
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':username', $username);
             $result = $stmt->execute();
+
+            $query = "DELETE FROM gpc_training WHERE user_id = :user_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':user_id', $user_id);
+            $result = $stmt->execute();
+            return true;
         }
     }
     /*____________ USERNAME EXISTS ____________*/
@@ -216,37 +216,37 @@ class UserModel {
         //_______ PASSWORD EMPTY _______//
         if (empty($password)) {
             new AlertModel('error', 'Veuillez renseigner un mot de passe pour vous inscrire.');
-            unset($_POST['username'], $_POST['password']);
+            unset($_POST['password']);
             return false;
         } else {
             //_______ PASSWORD MIN SIZE _______//
             if (strlen($password) < PASSWORD_MIN_SIZE) {
                 new AlertModel('error', 'Votre mot de passe doit contenir au moins ' . PASSWORD_MIN_SIZE  . ' caractères.');
-                unset($_POST['username'], $_POST['password']);
+                unset($_POST['password']);
                 return false;
             } else {
                 //_______ PASSWORD MAX SIZE _______//
                 if (strlen($password) > PASSWORD_MAX_SIZE) {
                     new AlertModel('error', 'Votre mot de passe ne doit pas dépasser ' . PASSWORD_MAX_SIZE  . ' caractères.');
-                    unset($_POST['username'], $_POST['password']);
+                    unset($_POST['password']);
                     return false;
                 } else {
                     //_______ PASSWORD CHARACTERS _______//
                     if (!preg_match('/^[a-zA-Z0-9_]+$/', $password)) {
                         new AlertModel('error', 'Votre mot de passe ne doit contenir que des lettres, des chiffres et des underscores.');
-                        unset($_POST['username'], $_POST['password']);
+                        unset($_POST['password']);
                         return false;
                     } else {
                         //_______ PASSWORD CONFIRM EMPTY _______//
                         if (empty($passwordConfirm)) {
                             new AlertModel('error', 'Veuillez confirmer votre mot de passe.');
-                            unset($_POST['username'], $_POST['password']);
+                            unset($_POST['password']);
                             return false;
                         } else {
                             //_______ PASSWORD CONFIRM DIFFERENT _______//
                             if ($password !== $passwordConfirm) {
                                 new AlertModel('error', 'Les mots de passe ne correspondent pas.');
-                                unset($_POST['username'], $_POST['password']);
+                                unset($_POST['password']);
                                 return false;
                             } else {
                                 return true;
@@ -491,8 +491,9 @@ class UserModel {
     public function get_history() {
         //_______ USER ID _______//
         $user_id = $_SESSION['user']['id'];
+        unset($_SESSION['user']['history']);
         if (!empty($user_id)) {
-            $stmt = $this->conn->prepare('SELECT * FROM gpc_training WHERE user_id = :user_id');
+            $stmt = $this->conn->prepare('SELECT * FROM gpc_training WHERE user_id = :user_id ORDER BY date DESC');
             $stmt->bindParam(':user_id', $user_id);
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);

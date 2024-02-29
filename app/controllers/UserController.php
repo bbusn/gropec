@@ -89,31 +89,32 @@ class UserController {
         }
     }
     /*____________ MODIFY ACCOUNT VIEW ____________*/
-     public function modify_account_view() {
-        require('resources/views/user/modify_account.php');
+     public function modify_password_view() {
+        require('resources/views/user/password.php');
     }
-    /*____________ MODIFY ACCOUNT ____________*/
-    public function modify_account($oldPassword, $username, $password, $passwordConfirm) {
-        $result = $this->userModel->modify_account($oldPassword, $username, $password, $passwordConfirm);
+    /*____________ MODIFY PASSWORD ____________*/
+    public function modify_password($oldPassword, $password, $passwordConfirm) {
+        $result = $this->userModel->modify_password($oldPassword, $password, $passwordConfirm);
         if ($result) {
-            $_SESSION['user']['username'] = $username;
-            new AlertModel('success', 'Les informations de votre compte ont été modifiées avec succès.');
-            header('Location: ' . ROOT . 'user');
+            new AlertModel('success', 'Votre mot de passe a été modifié avec succès.');
+            header('Location: ' . ROOT . 'user/settings');
             exit();
         } else {
-            $this->modify_account_view();
+            header('Location: ' . ROOT . 'user/settings/password');
+            exit();
         }
-    }
-    /*____________ DELETE ACCOUNT VIEW ____________*/
-    public function delete_account_view() {
-        require('resources/views/user/delete_account.php');
     }
     /*____________ DELETE ACCOUNT ____________*/
     public function delete_account() {
-        $this->userModel->delete_account();
-        $this->userModel->session_delete_account();
-        header('Location: ' . ROOT . 'user/sign-in');
-        exit();
+        $data = $this->userModel->delete_account();
+        if ($data) {
+            $this->userModel->session_delete_account();
+            header('Location: ' . ROOT . 'user/sign-in');
+            exit();
+        } else {
+            header('Location: ' . ROOT . 'user/settings');
+            exit();
+        }
     }
      /*____________ GROUP VIEW ____________*/
      public function group_view() {

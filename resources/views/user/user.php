@@ -34,14 +34,14 @@ require('resources/views/layout/head.php');
                     <h3>Inscrit depuis le <?= $created[0] ?></h3>
                 </div>
                <div class="user-actions flex-center-center flex-column no-select">
-                    <a href="<?= ROOT ?>user/performances" class="user-action flex-center-center">
-                        <img src="<?= ROOT ?>public/images/icons/performances.svg" alt="performances-icon" width="15" height="15">Performances
-                    </a>
                     <a href="<?= ROOT ?>user/history" class="user-action flex-center-center">
                         <img src="<?= ROOT ?>public/images/icons/history.svg" alt="journal-icon" width="15" height="15">Historique
                     </a>
                     <a href="<?= ROOT ?>user/statistics" class="user-action flex-center-center">
                         <img src="<?= ROOT ?>public/images/icons/statistics.svg" alt="statistics-icon" width="15" height="15">Statistiques
+                    </a>
+                    <a href="<?= ROOT ?>user/performances" class="user-action flex-center-center">
+                        <img src="<?= ROOT ?>public/images/icons/performances.svg" alt="performances-icon" width="15" height="15">Performances
                     </a>
                     <a href="<?= ROOT ?>user/settings" class="user-action flex-center-center">
                         <img src="<?= ROOT ?>public/images/icons/settings.svg" alt="settings-icon" width="15" height="15">Paramètres

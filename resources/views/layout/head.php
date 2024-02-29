@@ -69,6 +69,18 @@
         <noscript><link rel="stylesheet" href="<?= ROOT ?>public/css/components/buttons.css<?= V_QUERY ?>"></noscript>
     <?php endif; ?>
 
+    <?php if (isset($inputs)) : ?>
+    <!-- INPUTS.CSS -->
+        <link rel="preload" href="<?= ROOT ?>public/css/components/inputs.css<?= V_QUERY ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="<?= ROOT ?>public/css/components/inputs.css<?= V_QUERY ?>"></noscript>
+    <?php endif; ?>
+
+    <?php if (isset($confirm)) : ?>
+    <!-- CONFIRM.CSS -->
+        <link rel="preload" href="<?= ROOT ?>public/css/components/confirm.css<?= V_QUERY ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="<?= ROOT ?>public/css/components/confirm.css<?= V_QUERY ?>"></noscript>
+    <?php endif; ?>
+
     <?php if (isset($scroll)) : ?>
     <!-- SCROLL.CSS -->
         <link rel="preload" href="<?= ROOT ?>public/css/components/scroll.css<?= V_QUERY ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">

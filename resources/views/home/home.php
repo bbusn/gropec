@@ -9,13 +9,15 @@ $description = explode('-', $_SESSION['version']['description']);
 $user_id = $_SESSION['user']['id'];
 $week_days = ['monday'=>'Lundi', 'Tuesday'=>'Mardi', 'wednesday'=>'Mercredi', 'thursday'=>'Jeudi', 'friday'=>'Vendredi', 'saturday'=>'Samedi', 'sunday'=>'Dimanche'];
 $current_date = date('Y-m-d');
-$date = new DateTime($_SESSION['user']['history']['last']['date']);
-
-if ($date->format('Y-m-d') == $current_date) {
-    $last_training = $date->format('H:i');
-} else {
-    $last_training = $week_days[$_SESSION['user']['history']['last']['day']] . ' ' . $date->format('m-d');
+if (!empty($_SESSION['user']['history']['last'])) {
+    $date = new DateTime($_SESSION['user']['history']['last']['date']);
+    if ($date->format('Y-m-d') == $current_date) {
+        $last_training = $date->format('H:i');
+    } else {
+        $last_training = $week_days[$_SESSION['user']['history']['last']['day']] . ' ' . $date->format('m-d');
+    }
 }
+
 $links = '
     <!-- HOME.CSS -->
     <link rel="preload" href="' . ROOT . 'public/css/pages/home/home.css' . V_QUERY . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">

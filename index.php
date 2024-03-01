@@ -185,8 +185,7 @@ try {
                 /*________________ USER STATISTICS ________________*/
                 } elseif ($route == 'statistics') {
                     if (isset($_SESSION['user'])) {
-                        new AlertModel('error', 'La page demandée n\'est pas encore disponible.');
-                        $errorController->error_503();
+                        $userController->statistics_view();
                     } else {
                         new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
                         header('Location: ' . ROOT . 'user/sign-in');
@@ -337,6 +336,8 @@ try {
                                 $userController->group_user_view($username);
                             } elseif ($route_sub_options == 'history') {
                                 $userController->group_user_history_view($username);
+                            } elseif ($route_sub_options == 'statistics') {
+                                $userController->group_user_statistics_view($username);
                             } else {
                                 new AlertModel('error', 'La page demandée n\'existe pas.');
                                 $errorController->error_404();

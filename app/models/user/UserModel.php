@@ -45,7 +45,7 @@ class UserModel {
     /*____________ SIGN IN ____________*/
     public function sign_in($username, $password, $ip) {
         $data = $this->check_ban($ip);
-        if ($data === 1) {
+        if ($data == '1') {
             new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
             unset($_POST['username'], $_POST['password']);            
             return false;
@@ -122,8 +122,8 @@ class UserModel {
         $stmt->bindParam(':adress', $ip);
         $stmt->execute();
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (intval($data) == 1) {
-            return $data;
+        if (!empty($data['banned'])) {
+            return $data['banned'];
         } else {
             return false;
         }
@@ -137,6 +137,14 @@ class UserModel {
         $data = $stmt->fetchColumn();
         return intval($data);
     }
+    /*____________ REMOVE ATTEMPTS ____________*/
+    public function remove_attempts($ip) {
+        $query = "UPDATE gpc_ban SET attempts = 0 WHERE adress = :adress";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':adress', $ip);
+        $stmt->execute();
+    }
+
     /*____________ ADD ATTEMPT ____________*/
     public function add_attempt($ip) {
         $query = "UPDATE gpc_ban SET attempts = attempts + 1 WHERE adress = :adress";
@@ -630,6 +638,43 @@ class UserModel {
             return false;
         }
     }
+    /*____________ GENERATE STATISTICS ____________*/
+    public function generate_statistics($history) {
+        $statistics = array();
+        $statistics['trainings']['time'] = 0;
+        $statistics['trainings']['count'] = 0;
+        $statistics['trainings']['sport']['cycling'] = 0;
+        $statistics['trainings']['sport']['running'] = 0;
+        $statistics['trainings']['sport']['boxing'] = 0;
+        $statistics['trainings']['sport']['calisthenics'] = 0;
+        $statistics['trainings']['sport']['musculation'] = 0;
+        $statistics['trainings']['sport']['prefered']['name'] = 0;
+        $statistics['trainings']['sport']['prefered']['count'] = 0;
+        $statistics['trainings']['max']['time'] = 0;
+        $statistics['trainings']['average']['time'] = 0;
+        $statistics['trainings']['average']['day']['count'] = 0;
+        $statistics['trainings']['average']['day']['time'] = 0;
+        $statistics['trainings']['average']['week']['count'] = 0;
+        $statistics['trainings']['average']['week']['time'] = 0;
+
+        foreach ($history as $training) {
+            $statistics['trainings']['time'] += $training['time'];
+            $statistics['trainings']['count']++;
+            if ($training['time'] > $statistics['trainings']['max']['time']) {
+                $statistics['trainings']['max']['time'] = $training['time'];
+            }
+            $statistics['trainings']['sport'][$training['sport']]++;
+            if ($statistics['trainings']['sport'][$training['sport']] > $statistics['trainings']['sport']['prefered']['count']) {
+                $statistics['trainings']['sport']['prefered']['count'] = $statistics['trainings']['sport'][$training['sport']];
+                $statistics['trainings']['sport']['prefered']['name'] = $training['sport'];
+            }
+        }
+        // Average
+        if ($statistics['trainings']['count'] > 0) {
+            $statistics['trainings']['average']['time'] = floor($statistics['trainings']['time'] / $statistics['trainings']['count']);
+        }
+        return $statistics;
+    }
     /*____________ GET USER HISTORY ____________*/
     public function get_user_history($username) {
         //_______ USERNAME _______//
@@ -712,6 +757,16 @@ class UserModel {
     public function session_update_attempts($data) {
         $_SESSION['attempts'] = $data;
     }
+    /*____________ SESSION ADD STATISTICS ____________*/
+    public function session_add_statistics($data) {
+        $_SESSION['user']['statistics'] = $data;
+    }
+    /*____________ SESSION ADD GROUP USER STATISTICS ____________*/
+    public function session_add_group_user_statistics($data) {
+        $_SESSION['user']['group']['user']['statistics'] = $data;
+    }
+   
+
     /*____________ SESSION JOIN GROUP ____________*/
     public function session_join_group($data) {
         $_SESSION['user']['group']['name'] = $data['name'];

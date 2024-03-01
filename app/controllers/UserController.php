@@ -41,6 +41,16 @@ class UserController {
         } 
         require('resources/views/group/group_user_history.php');
     }
+    /*____________ GROUP USER STATISTICS VIEW ____________*/
+    public function group_user_statistics_view($username) {
+        $data = $this->userModel->get_user_history($username);
+        if ($data) {
+            $this->userModel->session_add_group_user_history($data);
+            $data = $this->userModel->generate_statistics($_SESSION['user']['group']['user']['history']);
+            $this->userModel->session_add_group_user_statistics($data);
+        }
+        require('resources/views/group/group_user_statistics.php');
+    }
 
     /*____________ HISTORY VIEW ____________*/
     public function history_view() {
@@ -50,7 +60,16 @@ class UserController {
         }
         require('resources/views/user/history.php');
     }
-
+    /*____________ STATISTICS VIEW ____________*/
+    public function statistics_view() {
+        $data = $this->userModel->get_history();
+        if ($data) {
+            $this->userModel->session_add_history($data);
+            $data = $this->userModel->generate_statistics($_SESSION['user']['history']);
+            $this->userModel->session_add_statistics($data);
+        }
+        require('resources/views/user/statistics.php');
+    }
 
     /*____________ SIGN IN VIEW ____________*/
     public function sign_in_view() {
@@ -59,17 +78,24 @@ class UserController {
     /*____________ SIGN IN ____________*/
     public function sign_in($username, $password) {
         $ip = $this->userModel->get_ip();
-        $result = $this->userModel->sign_in($username, $password, $ip);
-        if ($result) {
-            $this->userModel->session_sign_in($username);
-            $data = $this->userModel->get_group();
-            if ($data) {
-                $this->userModel->session_join_group($data);
-            } 
-            header('Location: ' . ROOT . 'user');
-            exit();
-        } else {
+        $ban = $this->userModel->check_ban($ip);
+        if ($ban == '1') {
+            new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
             $this->sign_in_view();
+        } else {
+            $result = $this->userModel->sign_in($username, $password, $ip);
+            if ($result) {
+                $this->userModel->remove_attempts($ip);
+                $this->userModel->session_sign_in($username);
+                $data = $this->userModel->get_group();
+                if ($data) {
+                    $this->userModel->session_join_group($data);
+                } 
+                header('Location: ' . ROOT . 'user');
+                exit();
+            } else {
+                $this->sign_in_view();
+            }
         }
     }
     /*____________ SIGN UP VIEW ____________*/
@@ -132,10 +158,10 @@ class UserController {
         $result = $this->userModel->delete_training($id);
         if ($result) {
             new AlertModel('success', 'Entraînement supprimé avec succès.');
-            header('Location: ' . ROOT . 'user/history');
+            header('Location: ' . ROOT . 'user');
             exit();
         } else {
-            header('Location: ' . ROOT . 'user/history');
+            header('Location: ' . ROOT . 'user');
             exit();
         }
     }

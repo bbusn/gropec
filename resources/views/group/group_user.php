@@ -35,6 +35,9 @@ require('resources/views/layout/head.php');
                     <a href="<?= ROOT ?>group/user/<?= $_SESSION['user']['group']['user']['username'] ?>/history" class="user-action flex-center-center">
                         <img src="<?= ROOT ?>public/images/icons/history.svg" alt="journal-icon" width="15" height="15">Historique
                     </a>
+                    <a href="<?= ROOT ?>group/user/<?= $_SESSION['user']['group']['user']['username'] ?>/statistics" class="user-action flex-center-center">
+                        <img src="<?= ROOT ?>public/images/icons/statistics.svg" alt="statistiques-icon" width="15" height="15">Statistiques
+                    </a>
                 </div>
             </main>
             <?php require('resources/views/layout/footer.php'); ?>

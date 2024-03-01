@@ -3,7 +3,7 @@
 <!-- GROUP USER HISTORY -->
 <?php 
 $sports = ['running'=>'Course à Pied', 'musculation'=>'Musculation', 'cycling'=>'Vélo', 'calisthenics'=>'Calisthénie', 'boxing'=>'Boxe anglaise'];
-$title = 'Historique';
+$title = 'Historique de ' . $_SESSION['user']['group']['user']['username'];
 $current_date = date('Y-m-d');
 $current_year = date('Y');
 $week_days = ['monday'=>'Lundi', 'Tuesday'=>'Mardi', 'wednesday'=>'Mercredi', 'thursday'=>'Jeudi', 'friday'=>'Vendredi', 'saturday'=>'Samedi', 'sunday'=>'Dimanche'];

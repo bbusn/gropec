@@ -1,6 +1,5 @@
 h1 {
     width: 100%;
-    font-size: 30px;
     font-weight: 300;
 }
 .updates, .trainings {
@@ -23,7 +22,7 @@ p {
 }
 h2 {
     width: 100%;
-    text-align: right;
+    text-align: left;
     color: var(--primaryColor);
 }
 .trainings h2 {

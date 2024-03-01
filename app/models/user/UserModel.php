@@ -43,38 +43,139 @@ class UserModel {
         }
     }
     /*____________ SIGN IN ____________*/
-    public function sign_in($username, $password) {
-        //_______ USERNAME EMPTY _______//
-        if (empty($username)) {
-            new AlertModel('error', 'Veuillez renseigner un nom d\'utilisateur pour vous connecter.');
+    public function sign_in($username, $password, $ip) {
+        $data = $this->check_ban($ip);
+        if ($data === 1) {
+            new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
             unset($_POST['username'], $_POST['password']);            
             return false;
         } else {
-            //_______ PASSWORD EMPTY _______//
-            if (empty($password)) {
-                new AlertModel('error', 'Veuillez renseigner un mot de passe pour vous connecter.');
-                unset($_POST['username'], $_POST['password']);          
+            //_______ USERNAME EMPTY _______//
+            if (empty($username)) {
+                new AlertModel('error', 'Veuillez renseigner un nom d\'utilisateur pour vous connecter.');
+                unset($_POST['username'], $_POST['password']);            
                 return false;
             } else {
-                //_______ USERNAME EXISTS _______//
-                if (!$this->username_exists($username)) {
-                    new AlertModel('error', 'Ce nom d\'utilisateur n\'existe pas.');
-                    unset($_POST['username'], $_POST['password']);
+                //_______ PASSWORD EMPTY _______//
+                if (empty($password)) {
+                    new AlertModel('error', 'Veuillez renseigner un mot de passe pour vous connecter.');
+                    unset($_POST['username'], $_POST['password']);          
                     return false;
                 } else {
-                    //_______ PASSWORD VERIFY _______//
-                    if ($this->password_verified($username, $password)) {
-                        return true;
-                    } else {
-                        new AlertModel('error', 'Le mot de passe est incorrect.');
-                        unset($_POST['username'], $_POST['password']);                     
+                    //_______ USERNAME EXISTS _______//
+                    if (!$this->username_exists($username)) {
+                        new AlertModel('error', 'Ce nom d\'utilisateur n\'existe pas.');
+                        unset($_POST['username'], $_POST['password']);
                         return false;
+                    } else {
+                        //_______ PASSWORD VERIFY _______//
+                        if ($this->password_verified($username, $password)) {
+                            return true;
+                        } else {
+                            $data = $this->check_attempts($ip);
+                            if ($data) {
+                                if ($data == 5) {
+                                    $this->ban($ip);
+                                    new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
+                                    return false;
+                                } else {
+                                    $this->add_attempt($ip);
+                                }
+                            } else {
+                                $this->insert_attempt($ip);
+                            }
+                            $data = $this->check_attempts($ip);
+                            $this->session_update_attempts($data);
+                            
+                            $attempts = 5 - intval($_SESSION['attempts']);
+                            if ($attempts === 0) {
+                                $this->ban($ip);
+                                new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
+                                return false;
+                            } else {
+                                new AlertModel('error', 'Le mot de passe est incorrect. ' . $attempts . ' tentative(s) restante(s).');
+                                unset($_POST['username'], $_POST['password']);    
+                                return false;
+                            }
+                        }
                     }
                 }
             }
         }
     }
-  
+    /*____________ GET IP ____________*/
+    public function get_ip() {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
+    }
+    
+    /*____________ CHECK BAN ____________*/
+    public function check_ban($ip) {
+        $query = "SELECT banned FROM gpc_ban WHERE adress = :adress";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':adress', $ip);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (intval($data) == 1) {
+            return $data;
+        } else {
+            return false;
+        }
+    }
+    /*____________ CHECK ATTEMPTS ____________*/
+    public function check_attempts($ip) {
+        $query = "SELECT attempts FROM gpc_ban WHERE adress = :adress";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':adress', $ip);
+        $stmt->execute();
+        $data = $stmt->fetchColumn();
+        return intval($data);
+    }
+    /*____________ ADD ATTEMPT ____________*/
+    public function add_attempt($ip) {
+        $query = "UPDATE gpc_ban SET attempts = attempts + 1 WHERE adress = :adress";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':adress', $ip);
+        $stmt->execute();
+    }
+    /*____________ INSERT ATTEMPT ____________*/
+    public function insert_attempt($ip) {
+        $query = "INSERT INTO gpc_ban (adress, attempts) VALUES (:adress, 1)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':adress', $ip);
+        $stmt->execute();
+    }
+    /*____________ BAN ____________*/
+    public function ban($ip) {
+        $query = "UPDATE gpc_ban SET banned = '1' WHERE adress = :adress";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':adress', $ip);
+        $stmt->execute();
+    }
+   
+    /*____________ DELETE TRAINING ____________*/
+    public function delete_training($id) {
+        $user_id = $_SESSION['user']['id'];
+        //_______ USER ID EMPTY _______//
+        if (empty($user_id)) {
+            new AlertModel('error', 'Impossible de supprimer l\'entrainement, vous n\'êtes pas connecté.');
+            return false;
+        } else {
+            //_______ DELETE TRAINING _______//
+            $query = "DELETE FROM gpc_training WHERE id = :id AND user_id = :user_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':user_id', $user_id);
+            $result = $stmt->execute();
+            return $result;
+        }
+    }
  
     /*____________ MODIFY PASSWORD ____________*/
     public function modify_password($oldPassword, $password, $passwordConfirm) {
@@ -468,13 +569,38 @@ class UserModel {
     /*____________ GET USER ____________*/
     public function get_user($username) {
         //_______ CONNECTED _______//
-        if ($_SESSION['user']['username']) {
+        if (!empty($_SESSION['user']['username'])) {
+            //_______ USER WATCHING ANOTHER USER _______//
+            if ($username != $_SESSION['user']['username']) {
+                //_______ USER NOT IN A GROUP _______//
+                if (empty($_SESSION['user']['group']['id'])) {
+                    new AlertModel('error', 'Impossible de voir le profil de ' . $username . ', vous n\'êtes dans aucun groupe.');
+                    return false;
+                }
+                //_______ USER NOT IN A GROUP _______//
+                if (empty($_SESSION['user']['group']['code'])) {
+                    new AlertModel('error', 'Impossible de voir le profil de ' . $username . ', vous n\'êtes dans aucun groupe.');
+                    return false;
+                }
+                //_______ USER IN SAME GROUP _______//
+                if (!$this->group_contain_user($username, $_SESSION['user']['group']['code'])) {
+                    new AlertModel('error', 'Impossible de voir le profil de ' . $username . ', vous n\'êtes pas dans le même groupe.');
+                    return false;
+                }
+            }
             //_______ USERNAME EMPTY _______//
             if (empty($username)) {
                 new AlertModel('error', 'Aucun nom d\'utilisateur renseigné.');
                 unset($_POST['username']);            
                 return false;
             }
+            //_______ USERNAME EXIST _______//
+            if (!$this->username_exists($username)) {
+                new AlertModel('error', 'Ce nom d\'utilisateur n\'existe pas.');
+                unset($_POST['username']);            
+                return false;
+            }
+
             $query = "SELECT username, group_id, created, id FROM gpc_user WHERE username = :username";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':username', $username);
@@ -501,6 +627,21 @@ class UserModel {
         } else {
             //_______ NO USER ID _______//
             new AlertModel('error', 'Impossible d\'afficher l\'historique des entrainements, vous n\'êtes pas connecté.');
+            return false;
+        }
+    }
+    /*____________ GET USER HISTORY ____________*/
+    public function get_user_history($username) {
+        //_______ USERNAME _______//
+        if (!empty($username)) {
+            $stmt = $this->conn->prepare('SELECT * FROM gpc_training WHERE user_id = (SELECT id FROM gpc_user WHERE username = :username) ORDER BY date DESC');
+            $stmt->bindParam(':username', $username);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } else {
+            //_______ NO USERNAME _______//
+            new AlertModel('error', 'Impossible d\'afficher l\'historique, aucun nom d\'utilisateur renseigné.');
             return false;
         }
     }
@@ -550,6 +691,10 @@ class UserModel {
     public function session_add_history($data) {
         $_SESSION['user']['history'] = $data;
     }
+    /*____________ SESSION ADD GROUP USER HISTORY ____________*/
+    public function session_add_group_user_history($data) {
+        $_SESSION['user']['group']['user']['history'] = $data;
+    }
     /*____________ SESSION SIGN OUT ____________*/
     public function session_sign_out() {
         unset($_SESSION['user']);
@@ -562,6 +707,10 @@ class UserModel {
         unset($_SESSION['user']);
         unset($_POST['sign-out']);
         new AlertModel('success', 'Votre compte a été supprimé avec succès. À bientôt !');
+    }
+    /*____________ SESSION UPDATE ATTEMPTS ____________*/
+    public function session_update_attempts($data) {
+        $_SESSION['attempts'] = $data;
     }
     /*____________ SESSION JOIN GROUP ____________*/
     public function session_join_group($data) {

@@ -78,6 +78,14 @@
     -webkit-animation: unpop 0.4s forwards;
             animation: unpop 0.4s forwards;
 }
+.appear02 {
+    -webkit-animation: appear 0.2s ease-in-out forwards;
+            animation: appear 0.2s ease-in-out forwards;
+}
+.disappear02 {
+    -webkit-animation: disappear 0.2s ease-in-out forwards;
+            animation: disappear 0.2s ease-in-out forwards;
+}
 .confirm-container p {
     width: 80%;
 }

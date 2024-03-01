@@ -1,7 +1,8 @@
 .history {
-    gap: 20px;
+    gap: 15px;
 }
 h1 {
+    margin-top: 10px;
     font-size: 28px;
     color: var(--primaryColor);
 }
@@ -9,22 +10,31 @@ h2 {
     width: 90%;
 }
 .history-container {
-    height: 85%;
+    height: auto;
+    max-height: 95%;
     flex-shrink: 1;
     overflow-y: scroll;
     gap: 10px;
     width: 100%;
 }
+.history-container.empty {
+    overflow: hidden;
+}
 .training {
-    transition: filter 0.2s;
-    padding: 15px 10px;
+    transition: all 0.2s;
     background: var(--quinaryColor);
     width: 85%;
     color: var(--white);
 }
+.training-container {
+    padding: 15px 10px;
+}
 .training:hover {
-    transition: filter 0.2s;
+    transition: all 0.2s;
     filter: brightness(1.5);
+}
+.training:hover .delete-training {
+    transition: all 0.2s;
 }
 .date {
     width: 80px;

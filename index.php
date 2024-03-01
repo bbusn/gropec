@@ -53,8 +53,8 @@ try {
     
         $subname = isset($urlSegments[0]) ? $urlSegments[0] : '';        
         $route = isset($urlSegments[1]) ? $urlSegments[1] : '';   
-        $route_options = isset($urlSegments[2]) ? $urlSegments[2] : '';   
-        echo '<script>console.log("' . $route . ' et options : ' . $route_options . '")</script>';
+        $route_options = isset($urlSegments[2]) ? $urlSegments[2] : '';
+        $route_sub_options = isset($urlSegments[3]) ? $urlSegments[3] : '';
         /*________________________________________*/
         /*  USER LAUNCHED APP OR WEB */
         /*________________________________________*/
@@ -75,13 +75,17 @@ try {
                                     exit();
                                 }
                             } else {
-                                require('app/utilities/SanitizeData.php');
+                                $userController->sign_up_view(); // switch comments to disable + userController view
+
+                                /*_________________ TEMPORARY DISABLED _________________*/
+
+                                // require('app/utilities/SanitizeData.php');
             
-                                $username = sanitize_form_data($_POST['username']);
-                                $password = sanitize_form_data($_POST['password']);
-                                $passwordConfirm = sanitize_form_data($_POST['password-confirm']);
+                                // $username = sanitize_form_data($_POST['username']);
+                                // $password = sanitize_form_data($_POST['password']);
+                                // $passwordConfirm = sanitize_form_data($_POST['password-confirm']);
             
-                                $userController->sign_up($username, $password, $passwordConfirm);
+                                // $userController->sign_up($username, $password, $passwordConfirm);
                             }
                         } else {
                             $userController->sign_up_view();
@@ -191,7 +195,18 @@ try {
                 /*________________ USER HISTORY ________________*/
                 } elseif ($route == 'history') {
                     if (isset($_SESSION['user'])) {
-                        $userController->history_view();
+                        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                            if (isset($_POST['training-id'])) {
+                                require('app/utilities/SanitizeData.php');
+                                $training_id = sanitize_form_data($_POST['training-id']);
+                                $userController->delete_training($training_id);
+                            } else {
+                                new AlertModel('error', 'La page demandée n\'existe pas.');
+                                $errorController->error_404();
+                            }
+                        } else {
+                            $userController->history_view();
+                        }
                     } else {
                         new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
                         header('Location: ' . ROOT . 'user/sign-in');
@@ -312,15 +327,32 @@ try {
                     }
                     
                 /*________________ GROUP USERS AND ERROR 404 ________________*/
-                } else {
-                    $usernamePattern = '/^user\/(?<username>[a-zA-Z0-9_]+)$/';
-                    if (preg_match($usernamePattern, $route, $matches)) {
-                        $username = $matches['username'];
-                        $userController->group_user_view($username);
+                } elseif ($route == 'user') {
+                    /*________________ IF CONNECTED ________________*/
+                    if (isset($_SESSION['user'])) {
+                        $usernamePattern = '/^(?<username>[a-zA-Z0-9_]+)$/';
+                        if (preg_match($usernamePattern, $route_options, $matches)) {
+                            $username = $matches['username'];
+                            if ($route_sub_options == '') {
+                                $userController->group_user_view($username);
+                            } elseif ($route_sub_options == 'history') {
+                                $userController->group_user_history_view($username);
+                            } else {
+                                new AlertModel('error', 'La page demandée n\'existe pas.');
+                                $errorController->error_404();
+                            }
+                        } else {
+                            new AlertModel('error', 'La page demandée n\'existe pas.');
+                            $errorController->error_404();
+                        }
                     } else {
-                        new AlertModel('error', 'La page demandée n\'existe pas.');
-                        $errorController->error_404();
+                        new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                        header('Location: ' . ROOT . 'user/sign-in');
+                        exit();
                     }
+                } else {
+                    new AlertModel('error', 'La page demandée n\'existe pas.');
+                    $errorController->error_404();
                 }
             /*________________________________________*/
             /*                 ADD                    */

@@ -49,13 +49,16 @@
     gap: 5px;
     width: 90%;
 }
-
-h1 {
+.group-user {
+    gap: 20px;
+}
+.user h1 {
     font-size: 35px;
 }
 
-h2 {
-    font-size: 20px;
+.user h2 {
+    font-size: 18px;
+    text-align:left
 }
 
 h3 {

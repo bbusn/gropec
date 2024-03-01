@@ -34,15 +34,9 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/loader.php'); ?>
             <?php require('resources/views/layout/orientation_block.php'); ?>
             <?php require('resources/views/layout/header.php'); ?>
-            <main class="home flex-between-center flex-column">
+            <main class="home flex-evenly-center flex-column">
                 <div id="title" class="flex-center-start flex-column">
                     <h1>Bonjour, <span><?= $_SESSION['user']['username'] ?></span></h1>
-                </div>
-                <div class="trainings flex-center-center flex-column">
-                    <h2>Entrainements</h2>
-                    <div class="flex-center-center flex-column">
-                        <p class="flex-center-center"><?php if (!empty($last_training)) {echo 'Votre dernier entrainement remonte à ' . $last_training;} else {echo 'Enregistrer un premier entrainement dans l\'onglet "Ajouter"';}?></p>
-                    </div>
                 </div>
                 <div class="updates flex-center-center flex-column">
                     <h2>Nouveautés</h2>

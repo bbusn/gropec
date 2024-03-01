@@ -24,6 +24,21 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `gpc_ban`
+--
+
+DROP TABLE IF EXISTS `gpc_ban`;
+CREATE TABLE IF NOT EXISTS `gpc_ban` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `adress` varchar(45) NOT NULL,
+  `attempts` int NOT NULL DEFAULT '0',
+  `banned` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `gpc_group`
 --
 
@@ -35,12 +50,6 @@ CREATE TABLE IF NOT EXISTS `gpc_group` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `gpc_group`
---
-
-INSERT INTO `gpc_group` (`id`, `name`, `code`) VALUES
-(16, 'Zguegos', 'JK48VYLA');
 
 -- --------------------------------------------------------
 
@@ -112,16 +121,6 @@ CREATE TABLE IF NOT EXISTS `gpc_training` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `gpc_training`
---
-
-INSERT INTO `gpc_training` (`id`, `user_id`, `date`, `day`, `time`, `sport`) VALUES
-(21, 30, '2024-02-29 11:10:53', 'monday', 21, 'cycling'),
-(22, 33, '2024-02-29 11:43:10', 'monday', 137, 'musculation'),
-(23, 33, '2024-02-29 11:43:14', 'monday', 49, 'running'),
-(24, 33, '2024-02-29 11:43:17', 'monday', 165, 'calisthenics'),
-(25, 33, '2024-02-29 11:43:33', 'monday', 60, 'boxing');
 
 -- --------------------------------------------------------
 
@@ -138,21 +137,6 @@ CREATE TABLE IF NOT EXISTS `gpc_user` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
---
--- Déchargement des données de la table `gpc_user`
---
-
-INSERT INTO `gpc_user` (`id`, `username`, `password`, `group_id`, `created`) VALUES
-(21, 'GazparLeBrakmar', '$2y$10$FhfDvWnhOpowC3Ind3xt0.5jk6jW0vJRvctfxH/8ihrAc/LrEkt/m', NULL, '2024-01-08 06:43:16'),
-(22, 'Maxxx', '$2y$10$AK236IbNNB/h6AMrjeOhM.ZnUGmV6svjp5MPw.Joe.Qn4D7oaZHxy', NULL, '2024-01-08 06:58:20'),
-(23, 'LeMaitre', '$2y$10$TN.BTZSZK8XFEIv6GsmzZu4Z5ogAj3BeCLvmhazbwXjn4zrcywmRy', NULL, '2024-01-08 10:07:05'),
-(25, 'Moumou', '$2y$10$Fp4PH8rORX0sRdCkGx6STuC10JSUkBApBj2V8m6DSolSQ3eONylCC', NULL, '2024-01-20 16:44:11'),
-(26, 'm_carron', '$2y$10$GlBkEttP5bKBXMO.TGtMC.WKKxaVY7aElsc1A4o7G1WiJXeNXr8cy', NULL, '2024-01-29 19:53:54'),
-(27, 'Nownoch', '$2y$10$kjEU0vByJbgvrS3PyNfn6u3SlQvkY9NLf1W8y0SncfHg7nQoweKE6', NULL, '2024-02-06 08:19:41'),
-(29, 'benoit', '$2y$10$BR.tkilPCOCXNVdRTMfW.OsbAoTM7s6fJYose50VcpcuNfyNMmzPS', 16, '2024-02-20 17:45:41'),
-(30, 'zgueg', '$2y$10$o/h7m6jerPMOBOaduKHotO1YWhJySl9d4WL6en8FtUO.yWcL3Z6TG', NULL, '2024-02-20 18:57:32'),
-(33, 'admin', '$2y$10$9jEffrd9ZptoQlDj1fsuh..42jh.25a7lS4Qn8G.fbqpj/YiJw7uK', NULL, '2024-02-29 11:20:37');
 
 -- --------------------------------------------------------
 

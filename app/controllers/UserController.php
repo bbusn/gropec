@@ -19,8 +19,7 @@ class UserController {
             $this->userModel->session_update_user($data);
             require('resources/views/user/user.php');
         } else {
-            header('Location: ' . ROOT . 'user/sign-in');
-            exit();
+            echo 'Error';
         }
     }
     /*____________ GROUP USER VIEW ____________*/
@@ -34,6 +33,15 @@ class UserController {
             exit();
         }
     }
+    /*____________ GROUP USER HISTORY VIEW ____________*/
+    public function group_user_history_view($username) {
+        $data = $this->userModel->get_user_history($username);
+        if ($data) {
+            $this->userModel->session_add_group_user_history($data);
+        } 
+        require('resources/views/group/group_user_history.php');
+    }
+
     /*____________ HISTORY VIEW ____________*/
     public function history_view() {
         $data = $this->userModel->get_history();
@@ -43,13 +51,15 @@ class UserController {
         require('resources/views/user/history.php');
     }
 
+
     /*____________ SIGN IN VIEW ____________*/
     public function sign_in_view() {
         require('resources/views/user/sign_in.php');
     }
     /*____________ SIGN IN ____________*/
     public function sign_in($username, $password) {
-        $result = $this->userModel->sign_in($username, $password);
+        $ip = $this->userModel->get_ip();
+        $result = $this->userModel->sign_in($username, $password, $ip);
         if ($result) {
             $this->userModel->session_sign_in($username);
             $data = $this->userModel->get_group();
@@ -64,7 +74,8 @@ class UserController {
     }
     /*____________ SIGN UP VIEW ____________*/
     public function sign_up_view() {
-        require('resources/views/user/sign_up.php');
+        new AlertModel('success', 'Inscription temporairement désactivée.');
+        require('resources/views/user/sign_up_temp.php');
     }
     /*____________ SIGN UP ____________*/
     public function sign_up($username, $password, $passwordConfirm) {
@@ -116,8 +127,21 @@ class UserController {
             exit();
         }
     }
-     /*____________ GROUP VIEW ____________*/
-     public function group_view() {
+    /*____________ DELETE TRAINING ____________*/
+    public function delete_training($id) {
+        $result = $this->userModel->delete_training($id);
+        if ($result) {
+            new AlertModel('success', 'Entraînement supprimé avec succès.');
+            header('Location: ' . ROOT . 'user/history');
+            exit();
+        } else {
+            header('Location: ' . ROOT . 'user/history');
+            exit();
+        }
+    }
+
+    /*____________ GROUP VIEW ____________*/
+    public function group_view() {
         if (isset($_SESSION['user']['group'])) {
             $data = $this->userModel->get_group_users();
             if ($data) {

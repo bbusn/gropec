@@ -49,7 +49,7 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/footer.php'); ?>
         </div>
     </div>
-    <script src="<?= ROOT ?>public/js/training.js"></script>
+    <script src="<?= ROOT ?>public/js/training.js<?= V_QUERY ?>"></script>
 </body>
 </html>
 

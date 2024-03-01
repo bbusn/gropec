@@ -1,27 +1,35 @@
 h1 {
+    text-align: left;
     width: 100%;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 300;
 }
-.updates {
+.updates, .trainings {
+    height: 35%;
     gap: 10px;
-    width: 100%;
-    color: var(--white);
+    width: 90%;
 }
-.update {
-    gap: 10px;
+.update, .trainings div {
+    gap: 5px;
     text-align: center;
     background: var(--quinaryColor);
-    height: 33%;
+    height: 80%;
     width: 100%;
     padding: 10px 0px;
 }
-.upgrade {
+p {
+    padding: 0px 20px;
     font-size: 16px;
     color: var(--secondaryColorDark);
 }
 h2 {
+    width: 100%;
+    text-align: left;
     color: var(--primaryColor);
+}
+.trainings h2 {
+    text-align: left;
+
 }
 h3 {
     color: var(--secondaryColorDark);

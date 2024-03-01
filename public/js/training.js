@@ -1,9 +1,1 @@
-window.addEventListener('load', function() {
-    const time = document.querySelector('#time');
-    const timeIndicator = document.querySelector('#time-indicator');
-    time.addEventListener('input', function() {
-        timeIndicator.innerHTML = time.value + ' <span>min</span>';
-        timeIndicator.style.left = `${Math.round(time.value/190*100)}%`;
-        console.log(time.value + ' ' + timeIndicator.style.left);
-    });
-});
+window.addEventListener("load",(function(){const e=document.querySelector("#time"),n=document.querySelector("#time-indicator");e.addEventListener("input",(function(){n.innerHTML=e.value+" <span>min</span>",n.style.left=`${Math.round(e.value/190*100)}%`,console.log(e.value+" "+n.style.left)}))}));

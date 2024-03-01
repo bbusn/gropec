@@ -12,7 +12,8 @@ h2 {
 .history-container {
     height: auto;
     max-height: 95%;
-    flex-shrink: 1;
+    -ms-flex-negative: 1;
+        flex-shrink: 1;
     overflow-y: scroll;
     gap: 10px;
     width: 100%;
@@ -21,20 +22,38 @@ h2 {
     overflow: hidden;
 }
 .training {
+    gap: 10px;
+    -webkit-transition: all 0.2s;
+    -o-transition: all 0.2s;
     transition: all 0.2s;
+    padding: 10px 10px;
     background: var(--quinaryColor);
     width: 85%;
     color: var(--white);
 }
 .training-container {
-    padding: 15px 10px;
+    width: 100%;
+}
+form {
+    display: none;
+}
+.training .delete-training {
+    opacity: 0.7;
+    font-size: 14px;
+    width: 100%;
+    -webkit-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    -webkit-filter: brightness(0.6);
+            filter: brightness(0.6);
+    height: 30px;
 }
 .training:hover {
+    -webkit-transition: all 0.2s;
+    -o-transition: all 0.2s;
     transition: all 0.2s;
-    filter: brightness(1.5);
-}
-.training:hover .delete-training {
-    transition: all 0.2s;
+    -webkit-filter: brightness(1.5);
+            filter: brightness(1.5);
 }
 .date {
     width: 80px;
@@ -43,7 +62,7 @@ h2 {
     font-size: 12px;
 }
 .sport {
-    font-size: 14px;
+    font-size: 18px;
     text-align: center;
     width: 100px;
 }

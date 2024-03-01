@@ -29,7 +29,7 @@ require('resources/views/layout/head.php');
                     <img src="<?= ROOT ?>public/images/logo.webp" alt="gropec-logo" width="54" height="54">
                     <h1><span><?= $_SESSION['user']['group']['user']['username'] ?></span></h1>
                     <h2>Inscrit depuis le</h2>
-                    <h2><?= $created[0] ?> à <?= $created[1] ?></h2>
+                    <h2><?= $created[0] ?></h2>
                 </div>
                 <div class="user-actions flex-center-center flex-column no-select">
                     <a href="<?= ROOT ?>group/user/<?= $_SESSION['user']['group']['user']['username'] ?>/history" class="user-action flex-center-center">

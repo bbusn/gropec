@@ -117,7 +117,7 @@ class UserModel {
     
     /*____________ CHECK BAN ____________*/
     public function check_ban($ip) {
-        $query = "SELECT banned FROM gpc_ban WHERE adress = :adress";
+        $query = "SELECT banned FROM gpc_adress WHERE adress = :adress";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':adress', $ip);
         $stmt->execute();
@@ -130,7 +130,7 @@ class UserModel {
     }
     /*____________ CHECK ATTEMPTS ____________*/
     public function check_attempts($ip) {
-        $query = "SELECT attempts FROM gpc_ban WHERE adress = :adress";
+        $query = "SELECT attempts FROM gpc_adress WHERE adress = :adress";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':adress', $ip);
         $stmt->execute();
@@ -139,7 +139,7 @@ class UserModel {
     }
     /*____________ REMOVE ATTEMPTS ____________*/
     public function remove_attempts($ip) {
-        $query = "UPDATE gpc_ban SET attempts = 0 WHERE adress = :adress";
+        $query = "UPDATE gpc_adress SET attempts = 0 WHERE adress = :adress";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':adress', $ip);
         $stmt->execute();
@@ -147,21 +147,21 @@ class UserModel {
 
     /*____________ ADD ATTEMPT ____________*/
     public function add_attempt($ip) {
-        $query = "UPDATE gpc_ban SET attempts = attempts + 1 WHERE adress = :adress";
+        $query = "UPDATE gpc_adress SET attempts = attempts + 1 WHERE adress = :adress";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':adress', $ip);
         $stmt->execute();
     }
     /*____________ INSERT ATTEMPT ____________*/
     public function insert_attempt($ip) {
-        $query = "INSERT INTO gpc_ban (adress, attempts) VALUES (:adress, 1)";
+        $query = "INSERT INTO gpc_adress (adress, attempts) VALUES (:adress, 1)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':adress', $ip);
         $stmt->execute();
     }
     /*____________ BAN ____________*/
     public function ban($ip) {
-        $query = "UPDATE gpc_ban SET banned = '1' WHERE adress = :adress";
+        $query = "UPDATE gpc_ips SET banned = '1' WHERE adress = :adress";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':adress', $ip);
         $stmt->execute();

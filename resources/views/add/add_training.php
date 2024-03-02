@@ -28,17 +28,19 @@ require('resources/views/layout/head.php');
                     <h2>Sélectionner le sport pratiqué et la durée de votre entrainement</h2>
                 </div>
                 <form method="post" action="" class="add-actions flex-center-center no-select flex-column">
-                    <label for="sport">Sport</label>   
-                    <select name="sport" id="sport" class="flex-center-center">
-                        <option value="musculation">Musculation</option>
-                        <option value="running">Course à pied</option>
-                        <option value="cycling">Vélo</option>
-                        <option value="boxing">Boxe anglaise</option>
-                        <option value="calisthenics">Calisthénie</option>
-                    </select>
+                    <div class="custom-dropdown flex-center-center" id="sportsDropdown">
+                        <div class="selected-option flex-center-center flex-column">Choisissez un sport</div>
+                        <div class="dropdown-options">
+                            <div class="option" data-value="musculation">Musculation</div>
+                            <div class="option" data-value="running">Course à pied</div>
+                            <div class="option" data-value="cycling">Vélo</div>
+                            <div class="option" data-value="boxing">Boxe anglaise</div>
+                            <div class="option" data-value="calisthenics">Calisthénie</div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="sport" value="" id="sport">
                     <div class="time-container flex-center-center flex-column">
-                        <label for="time">Durée</label>
-                        <div id="time-indicator">0
+                        <div id="time-indicator" class="flex-center-center">0
                             <span>min</span>
                         </div>
                         <input type="range" id="time" name="time" min="0" max="180" steps="1" value="0">

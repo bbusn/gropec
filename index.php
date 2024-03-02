@@ -453,7 +453,6 @@ try {
                 }
             }
         } else {
-            new AlertModel('error', 'Vous êtes déjà sur l\'application.');
             header('Location: ' . ROOT . 'user');
             exit();
         }

@@ -1,5 +1,4 @@
-
-.add-training form {
+.add-actions {
     width: 100%;
     gap: 10px;
 }
@@ -9,29 +8,61 @@ h1 {
 h2 {
     font-size: 16px;
 }
-#sport {
-    text-align: center;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+.custom-dropdown {
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    width: 100%;
+    position: relative;
+}
+.selected-option {
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    width: 75%;
     cursor: pointer;
-    background: var(--white);
-    opacity: 0.8;
-    width: 70%;
-    height: 35px;
+    padding: 10px 5px;
+    background: var(--secondaryColorLight);
+}
+.dropdown-options {
     -webkit-transition: all 0.2s;
     -o-transition: all 0.2s;
     transition: all 0.2s;
-}
-#sport option {
     text-align: center;
+    width: 75%;
+    z-index: 10;
+    position: absolute;
+    -webkit-transform: translate(-50%, 0);
+        -ms-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
+    top: 100%;
+    left: 50%;
+    background-color: var(--white);
+    border-top: none;
+    display: none;
 }
-#sport:hover, #sport:focus, #sport:active {
-    outline: none;
-    opacity: 1;
+.option {
     -webkit-transition: all 0.2s;
     -o-transition: all 0.2s;
     transition: all 0.2s;
+    padding: 10px;
+    cursor: pointer;
+}
+.option:hover {
+    -webkit-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    background-color: #e0e0e0;
+}
+.selected-option:active {
+    -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+            transform: scale(0.8);
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
 }
 #time {
     -webkit-appearance: none;
@@ -41,7 +72,7 @@ h2 {
     background: transparent;
     opacity: 0.9;
     width: 100%;
-    height: 110px;
+    height: 50px;
     -webkit-transition: all 0.2s;
     -o-transition: all 0.2s;
     transition: all 0.2s;
@@ -73,19 +104,12 @@ h2 {
     width: 15px;    
 }
 #time-indicator {
-    -webkit-transform: translateX(-90%);
-        -ms-transform: translateX(-90%);
-            transform: translateX(-90%);
+    gap: 5px;
+    width: 100%;
     color: var(--primaryColor);
-    position: absolute;
-    top: 20%;
-}
-#time-indicator span {
-    position: absolute;
-    margin-left: 2px;
 }
 .time-container {
-    position: relative;
+    gap: 5px;
     width: 80%;
 }
 label {

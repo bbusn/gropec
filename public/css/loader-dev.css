@@ -271,11 +271,27 @@ ___________________________________*/
 }
 /* MEDIA QUERY Height 480px
 ___________________________________*/
-@media screen and (max-height: 600px) and (min-height: 0px) {
+@media screen and (max-height: 400px) and (min-height: 0px) {
     #orientation-block {
         display: -webkit-box !important;
         display: -ms-flexbox !important;
         display: flex !important;
+    }
+}
+@media screen and (max-height: 600px) and (min-height: 0px) {
+    #app {
+        overflow: scroll;   
+        height: 100%;
+    }
+    #app-container {
+        height: 100%;
+        max-height: 100%;
+        overflow: scroll;
+    }
+    main {
+        max-height: 70vh !important;
+        height: 100% !important;
+        overflow: visible !important;
     }
 }
 #orientation-block {

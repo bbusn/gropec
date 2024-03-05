@@ -27,8 +27,8 @@ require('resources/views/layout/head.php');
                 <div id="title" class="flex-center-center flex-column">
                     <h1>Paramètres</h1>
                 </div>
-                <button id="delete-account" class="quaternary-button flex-center-center">Supprimer mon compte</button>
                 <a href="<?= ROOT ?>user/settings/password" class="quaternary-button flex-center-center">Modifier le mot de passe</a>
+                <button id="delete-account" class="quaternary-button flex-center-center">Supprimer mon compte</button>
                 <form class="sign-out flex-center-center flex-column" action="" method="post">
                     <input type="hidden" name="sign-out">
                     <input type="submit" value="Se déconnecter" class="primary-button flex-center-center">

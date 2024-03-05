@@ -5,56 +5,90 @@ h1 {
     font-size: 26px;
 }
 .group-actions {
-    gap: 25px;
+    gap: 15px;
     width: 100%;
 }
 .group-actions div {
     gap: 10px;
     width: 100%;
 }
-.group-users li a {
-    box-sizing: border-box;
-    word-break: break-all;
-    word-spacing: pre-wrap;
-    font-size: 12px;
-    width: 50px;
-    height: 90px;
-    -webkit-transition: -webkit-transform 0.3s, -webkit-filter 0.3s;
-    -o-transition: transform 0.3s, filter 0.3s;
-    transition: transform 0.3s, filter 0.3s, -webkit-transform 0.3s, -webkit-filter 0.3s;
+.quaternary-button {
     gap: 10px;
-    text-decoration: none;
-    color: var(--quaternaryColor);
+}
+.quaternary-button img {
+    filter: saturate(0) brightness(2);
+}
+.group-today {
+    gap: 10px;
+    position: relative;
     text-align: center;
+    color: var(--white);
+    box-sizing: border-box;
+    padding: 20px;
+    height: 45%;
+    width: 90%;
 }
-.group-users li a.user {
-    opacity: 0.5;
-}
-.group-users li a:hover {
-    -webkit-transition: -webkit-transform 0.3s, -webkit-filter 0.3s;
-    -o-transition: transform 0.3s, filter 0.3s;
-    transition: transform 0.3s, filter 0.3s, -webkit-transform 0.3s, -webkit-filter 0.3s;
-    -webkit-filter: brightness(1.5);
-    filter: brightness(1.5);
-}
-.group-users li a:active {
-    -webkit-transition: -webkit-transform 0.3s, -webkit-filter 0.3s;
-    -o-transition: transform 0.3s, filter 0.3s;
-    transition: transform 0.3s, filter 0.3s, -webkit-transform 0.3s, -webkit-filter 0.3s;
-    -webkit-transform: scale(0.9);
-        -ms-transform: scale(0.9);
-            transform: scale(0.9);
-}
-.group-users {
-    gap: 20px;
-    width: 100%;
-}
-.group-users li a:visited {
+.group-today h2 {
+    font-size: 17px;
+    width: 80%;
+    z-index: 1;
     color: var(--white);
 }
-.group-users li a span {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--quinaryColor);
+.group-today-training div {
+    gap: 10px;
+    font-size: 10px;
+    width: 50%;
+}
+.group-today-training span {
+    font-size: 10px;
+}
+.group-today-training.user span:first-of-type {
+    color: var(--primaryColorLight2);
+}
+.group-today-training span:first-of-type {
+    color: var(--white);
+}
+.group-today-training {
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: filter 0.2s, transform 0.2s;
+    opacity: 0.7;
+    padding: 10px 5px;
+    width: 100%;
+    background: var(--tertiaryColorDark);
+}
+.group-today-training.user {
+    opacity: 1;
+}
+.group-today-training:hover {
+    transition: filter 0.2s, transform 0.2s;
+    filter: brightness(1.5);
+}
+.group-today-training.user:active {
+    transition: filter 0.2s, transform 0.2s;
+    transform: scale(0.8);
+}
+.group-today-trainings {
+    gap: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    z-index: 1;
+    max-height: 100%;
+}
+.group-image-rgba {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+.group-image {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+.group-today h2 {
+    color: var(--white);
 }

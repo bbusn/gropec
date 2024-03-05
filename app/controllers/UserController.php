@@ -33,6 +33,21 @@ class UserController {
             exit();
         }
     }
+    /*____________ GROUP USERS VIEW ____________*/
+    public function group_users_view() {
+        $data = $this->userModel->get_group_users();
+        if ($data) {
+            $this->userModel->session_add_group_users($data);
+            require('resources/views/group/group_users.php');
+        } else {
+            header('Location: ' . ROOT . 'group');
+            exit();
+        }
+    }
+    /*____________ GROUP SETTINGS VIEW ____________*/
+    public function group_settings_view() {
+        require('resources/views/group/group_settings.php');
+    }
     /*____________ GROUP USER HISTORY VIEW ____________*/
     public function group_user_history_view($username) {
         $data = $this->userModel->get_user_history($username);
@@ -83,8 +98,21 @@ class UserController {
             new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
             $this->sign_in_view();
         } else {
-            $result = $this->userModel->sign_in($username, $password, $ip);
+            if(!empty($_COOKIE['gpc_auth'])) {
+                $auth = $_COOKIE['gpc_auth'];
+                $username = $this->userModel->sign_in_auth($auth, $ip);
+                $result = true;
+            } else {
+                $result = $this->userModel->sign_in($username, $password, $ip);
+            }
             if ($result) {
+                if(empty($_COOKIE['gpc_auth'])) {
+                    $auth = $this->userModel->generate_auth();
+                    $expire = time() + (360 * 24 * 60 * 60);
+                    setcookie('gpc_auth', $auth, $expire, '/', '', true, false);
+                    $this->userModel->set_auth($auth, $ip, $username);
+                    $this->userModel->session_set_auth($auth);
+                }
                 $this->userModel->remove_attempts($ip);
                 $this->userModel->session_sign_in($username);
                 $data = $this->userModel->get_group();
@@ -116,6 +144,7 @@ class UserController {
     }
     /*____________ SIGN OUT ____________*/
     public function sign_out() {
+        $this->userModel->delete_auth($_SESSION['user']['auth']);
         $this->userModel->session_sign_out();
         if (isset($_SESSION['app']) || isset($_SESSION['web'])) {
             header('Location: ' . ROOT . 'user/sign-in');
@@ -173,6 +202,8 @@ class UserController {
             if ($data) {
                 $this->userModel->session_add_group_users($data);
             }
+            $results = $this->userModel->get_group_today_trainings();
+            $this->userModel->session_add_group_today_trainings($results);
         }
         require('resources/views/group/group.php');
     }

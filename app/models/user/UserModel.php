@@ -72,12 +72,17 @@ class UserModel {
                         if ($this->password_verified($username, $password)) {
                             return true;
                         } else {
-                            $data = $this->check_attempts($ip);
-                            if ($data) {
-                                if ($data == 5) {
-                                    $this->ban($ip);
-                                    new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
-                                    return false;
+                            $has_ip = $this->has_ip($ip);
+                            if ($has_ip) {
+                                $data = $this->check_attempts($ip);
+                                if ($data) {
+                                    if ($data == 5) {
+                                        $this->ban($ip);
+                                        new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
+                                        return false;
+                                    } else {
+                                        $this->add_attempt($ip);
+                                    }
                                 } else {
                                     $this->add_attempt($ip);
                                 }
@@ -103,6 +108,163 @@ class UserModel {
             }
         }
     }
+    /*____________ SIGN IN AUTH ____________*/
+    public function sign_in_auth($auth, $ip) {
+        $data = $this->check_ban($ip);
+        if ($data == '1') {
+            new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
+            unset($_POST['username'], $_POST['password']);            
+            return false;
+        } else {
+            //_______ AUTH EMPTY _______//
+            if (empty($auth)) {
+                new AlertModel('error', 'Il y a une erreur avec votre session, veuillez vous reconnecter.');
+                unset($_POST['auth']);            
+                return false;
+            } else {
+                //_______ AUTH EXISTS _______//
+                $query = "SELECT COUNT(*) FROM gpc_auth WHERE auth = :auth";
+                $stmt = $this->conn->prepare($query);
+                $stmt->bindParam(':auth', $auth);
+                $stmt->execute();
+                $count = $stmt->fetchColumn();
+                if ($count > 0) {
+                    $query = "SELECT username FROM gpc_user WHERE id = (SELECT user_id FROM gpc_auth WHERE auth = :auth)";
+                    $stmt = $this->conn->prepare($query);
+                    $stmt->bindParam(':auth', $auth);
+                    $stmt->execute();
+                    $username = $stmt->fetchColumn();
+                    $this->update_auth($auth);
+                    $this->session_update_auth($auth);
+                    return $username;
+                } else {
+                    $has_ip = $this->has_ip($ip);
+                    if ($has_ip) {
+                        $data = $this->check_attempts($ip);
+                        if ($data) {
+                            if ($data == 5) {
+                                $this->ban($ip);
+                                new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
+                                return false;
+                            } else {
+                                $this->add_attempt($ip);
+                            }
+                        } else {
+                            $this->insert_attempt($ip);
+                        }
+                    } else {
+                        $this->add_attempt($ip);
+                    }
+                    $data = $this->check_attempts($ip);
+                    $this->session_update_attempts($data);
+                    
+                    $attempts = 5 - intval($_SESSION['attempts']);
+                    if ($attempts === 0) {
+                        $this->ban($ip);
+                        new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
+                        return false;
+                    } else {
+                        new AlertModel('error', 'Il y a une erreur avec votre session, veuillez vous reconnecter. ' . $attempts . ' tentative(s) restante(s).');
+                        unset($_POST['auth']);    
+                        return false;
+                    }
+                }
+            }
+        }
+        
+    }
+    /*____________ GENERATE AUTH ____________*/
+    public function generate_auth() {
+        do {
+            $auth = bin2hex(random_bytes(32));
+            $query = "SELECT COUNT(*) FROM gpc_auth WHERE auth = :auth";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':auth', $auth);
+            $stmt->execute();
+            $count = $stmt->fetchColumn();
+        } while ($count > 0);
+        return $auth;
+    }
+    /*____________SET AUTH ____________*/
+    public function set_auth($auth, $ip, $username) {
+        $has_adress = $this->has_adress($ip);
+        if ($has_adress) {
+            $adress_id = $this->get_adress_id($ip);
+        } else {
+            $this->insert_adress($ip);
+            $adress_id = $this->get_adress_id($ip);
+        }
+        if ($adress_id) {
+            $user_id = $this->get_user_id($username);
+            if ($user_id) {
+                $query = "INSERT INTO gpc_auth (auth, adress_id, last_login, user_id) VALUES (:auth, :adress_id, :last_login, (SELECT user_id FROM gpc_user WHERE username = :username));";
+                $stmt = $this->conn->prepare($query);
+                $stmt->bindParam(':auth', $auth);
+                $stmt->bindParam(':adress_id', $adress_id);
+                $stmt->bindParam(':last_login', date('Y-m-d H:i:s'));
+                $stmt->bindParam(':username', $username);
+                $result = $stmt->execute();
+                return $result;
+            } else {
+                new AlertModel('error', 'Impossible de générer une authentification, l\'utilisateur n\'existe pas.');
+                return false;
+            }
+        } else {
+            new AlertModel('error', 'Impossible de générer une authentification, l\'adresse IP n\'existe pas.');
+            return false;
+        }
+    }
+    /*____________ DELETE AUTH ____________*/
+    public function delete_auth($auth) {
+        $query = "DELETE FROM gpc_auth WHERE auth = :auth";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':auth', $auth);
+        $result = $stmt->execute();
+        setcookie('gpc_auth', '', time() - 3600, '/');
+        unset($_COOKIE['gpc_auth']);
+        return $result;
+    }
+    /*____________ UPDATE AUTH ____________*/
+    public function update_auth($auth) {
+        $query = "UPDATE gpc_auth SET last_login = :last_login WHERE auth = :auth";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':last_login', date('Y-m-d H:i:s'));
+        $stmt->bindParam(':auth', $auth);
+        $result = $stmt->execute();
+        return $result;
+    }
+    /*____________ HAS ADRESS ____________*/
+    public function has_adress($ip) {
+        $query = "SELECT COUNT(*) FROM gpc_adress WHERE adress = :adress";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':adress', $ip);
+        $stmt->execute();
+        $count = $stmt->fetchColumn();
+        if ($count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /*____________ GET ADRESS ID ____________*/
+    public function get_adress_id($ip) {
+        $query = "SELECT id FROM gpc_adress WHERE adress = :adress";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':adress', $ip);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $data['id'];
+    }
+    /*____________ INSERT ADRESS ____________*/
+    public function insert_adress($ip) {
+        $query = "INSERT INTO gpc_adress (adress, attempts) VALUES (:adress, :attempts)";
+        $stmt = $this->conn->prepare($query);
+        $attempts = 0;
+        $stmt->bindParam(':adress', $ip);
+        $stmt->bindParam(':attempts', $attempts);
+        $stmt->execute();
+    }
+
     /*____________ GET IP ____________*/
     public function get_ip() {
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
@@ -124,6 +286,19 @@ class UserModel {
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!empty($data['banned'])) {
             return $data['banned'];
+        } else {
+            return false;
+        }
+    }
+    /*____________ CHECK IP ____________*/
+    public function has_ip($ip) {
+        $query = "SELECT COUNT(*) FROM gpc_adress WHERE adress = :adress";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':adress', $ip);
+        $stmt->execute();
+        $count = $stmt->fetchColumn();
+        if ($count > 0) {
+            return true;
         } else {
             return false;
         }
@@ -574,6 +749,25 @@ class UserModel {
             return false;
         }
     }
+    /*____________ GET GROUP TODAY TRAININGS ____________*/
+    public function get_group_today_trainings() {
+        //_______ GROUP _______//
+        $group = $_SESSION['user']['group']['id'];
+        if ($group) {
+            $query = "SELECT username, user_id, sport, time FROM gpc_training JOIN gpc_user ON gpc_training.user_id = gpc_user.id WHERE user_id IN (SELECT id FROM gpc_user WHERE group_id = :group) AND DATE(date) = DATE(:date) ORDER BY DATE DESC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':group', $group);
+            $date = date('Y-m-d');
+            $stmt->bindParam(':date', $date);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } else {
+            //_______ GROUP NOT SET _______//
+            new AlertModel('error', 'Impossible de récupérer les données du groupe, vous n\'êtes pas dans un groupe.');
+            return false;
+        }
+    }
     /*____________ GET USER ____________*/
     public function get_user($username) {
         //_______ CONNECTED _______//
@@ -621,6 +815,29 @@ class UserModel {
             return false;
         }
     }
+    /*____________ GET USER ID ____________*/
+    public function get_user_id($username) {
+        //_______ USERNAME EMPTY _______//
+        if (empty($username)) {
+            new AlertModel('error', 'Aucun nom d\'utilisateur renseigné.');
+            unset($_POST['username']);            
+            return false;
+        }
+        //_______ USERNAME EXIST _______//
+        if (!$this->username_exists($username)) {
+            new AlertModel('error', 'Ce nom d\'utilisateur n\'existe pas.');
+            unset($_POST['username']);            
+            return false;
+        }
+        $query = "SELECT id FROM gpc_user WHERE username = :username";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        $data = $stmt->fetchColumn();
+        return $data;
+    }
+
+
     /*____________ GET HISTORY ____________*/
     public function get_history() {
         //_______ USER ID _______//
@@ -713,7 +930,7 @@ class UserModel {
         _______________________________________________________________
     
         SESSIONS FUNCTIONS    
-        
+
         _______________________________________________________________
     */
     /*____________ SESSION SIGN IN ____________*/
@@ -732,6 +949,14 @@ class UserModel {
         $_SESSION['user']['id'] = $data['id'];
         $_SESSION['user']['group_id'] = $data['group_id'];
     }
+    /*____________ SESSION UPDATE USERNAME ____________*/
+    public function session_update_username($username) {
+        $_SESSION['user']['username'] = $username;
+    }
+    /*____________ SESSION UPDATE AUTH ____________*/
+    public function session_update_auth($auth) {
+        $_SESSION['user']['auth'] = $auth;
+    }
     /*____________ SESSION ADD HISTORY ____________*/
     public function session_add_history($data) {
         $_SESSION['user']['history'] = $data;
@@ -740,6 +965,11 @@ class UserModel {
     public function session_add_group_user_history($data) {
         $_SESSION['user']['group']['user']['history'] = $data;
     }
+    /*____________ SESSION ADD GROUP TODAY TRAININGS ____________*/
+    public function session_add_group_today_trainings($data) {
+        $_SESSION['user']['group']['today']['trainings'] = $data;
+    }
+
     /*____________ SESSION SIGN OUT ____________*/
     public function session_sign_out() {
         unset($_SESSION['user']);
@@ -753,6 +983,11 @@ class UserModel {
         unset($_POST['sign-out']);
         new AlertModel('success', 'Votre compte a été supprimé avec succès. À bientôt !');
     }
+    /*____________ SESSION SET AUTH ____________*/
+    public function session_set_auth($auth) {
+        $_SESSION['user']['auth'] = $auth;
+    }
+
     /*____________ SESSION UPDATE ATTEMPTS ____________*/
     public function session_update_attempts($data) {
         $_SESSION['attempts'] = $data;

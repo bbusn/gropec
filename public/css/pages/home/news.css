@@ -1,0 +1,16 @@
+.news {
+    gap: 20px;
+}
+.update {
+    gap: 5px;
+    text-align: center;
+    background: var(--quinaryColor);
+    height: 40%;
+    width: 100%;
+    padding: 10px 0px;
+}
+p {
+    padding: 0px 20px;
+    font-size: 16px;
+    color: var(--secondaryColorDark);
+}

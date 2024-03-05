@@ -115,7 +115,13 @@ try {
                                 $userController->sign_in($username, $password);    
                             }
                         } else {
-                            $userController->sign_in_view();
+                            if(!empty($_COOKIE['gpc_auth'])) {
+                                $username = 'username';
+                                $password = 'password';
+                                $userController->sign_in($username, $password);    
+                            } else {
+                                $userController->sign_in_view();
+                            }
                         }
                     } else {
                         new AlertModel('error', 'Vous êtes déjà connecté, ' . $_SESSION['user']['username'] . '.');
@@ -241,6 +247,15 @@ try {
                         header('Location: ' . ROOT . 'user/sign-in');
                         exit();
                     }
+                /*________________ NEWS PAGE ________________*/
+                } else if ($route == 'news') {
+                    if (isset($_SESSION['user'])) {
+                        $homeController->news_view();             
+                    } else {
+                        new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                        header('Location: ' . ROOT . 'user/sign-in');
+                        exit();
+                    }
                 /*________________ HOME ERROR 404 ________________*/
                 } else {
                     new AlertModel('error', 'La page demandée n\'existe pas.');
@@ -267,16 +282,9 @@ try {
                                 $code = sanitize_form_data($_POST['code']);
                                 $userController->join_group($code);
                             }
-                        /*________________ IF POST LEAVE GROUP ________________*/
-                        } else if (isset($_POST['leave-group'])) {
-                            if (isset($_SESSION['user']['group']) && !empty($_SESSION['user']['group'])) {
-                                $userController->leave_group();
-                            /*________________ NO GROUP ________________*/
-                            } else {
-                                new AlertModel('error', 'Vous n\'êtes pas dans un groupe.');
-                                header('Location: ' . ROOT . 'group');
-                                exit();
-                            }
+                        } else {
+                            new AlertModel('error', 'La page demandée n\'existe pas.');
+                            $errorController->error_404();
                         }
                     /*________________ NO POST ________________*/
                     } else {
@@ -325,7 +333,7 @@ try {
                         exit();
                     }
                     
-                /*________________ GROUP USERS AND ERROR 404 ________________*/
+                /*________________ GROUP USER ________________*/
                 } elseif ($route == 'user') {
                     /*________________ IF CONNECTED ________________*/
                     if (isset($_SESSION['user'])) {
@@ -351,6 +359,65 @@ try {
                         header('Location: ' . ROOT . 'user/sign-in');
                         exit();
                     }
+                /*________________ GROUP USERS ________________*/
+                }  elseif ($route == 'users') {
+                    /*________________ IF CONNECTED ________________*/
+                    if (isset($_SESSION['user'])) {
+                        if (!empty($_SESSION['user']['group'])) {
+                            $userController->group_users_view();
+                        } else {
+                            new AlertModel('error', 'Vous n\'êtes pas dans un groupe.');
+                            header('Location: ' . ROOT . 'group');
+                            exit();
+                        }
+                    } else {
+                        new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                        header('Location: ' . ROOT . 'user/sign-in');
+                        exit();
+                    }
+                
+                /*________________ GROUP SETTINGS ________________*/
+                }  elseif ($route == 'settings') {
+                    /*________________ IF POST ________________*/
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                         /*________________ IF CONNECTED ________________*/
+                        if (isset($_SESSION['user'])) {
+                            if (isset($_POST['leave-group'])) {
+                                if (isset($_SESSION['user']['group']) && !empty($_SESSION['user']['group'])) {
+                                    $userController->leave_group();
+                                /*________________ NO GROUP ________________*/
+                                } else {
+                                    new AlertModel('error', 'Vous n\'êtes pas dans un groupe.');
+                                    header('Location: ' . ROOT . 'group');
+                                    exit();
+                                }
+                            } else {
+                                new AlertModel('error', 'La page demandée n\'existe pas.');
+                                $errorController->error_404();
+                            }
+                        } else {
+                            new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                            header('Location: ' . ROOT . 'user/sign-in');
+                            exit();
+                        }
+                     /*________________ IF POST LEAVE GROUP ________________*/
+                    } else {
+                        /*________________ IF CONNECTED ________________*/
+                        if (isset($_SESSION['user'])) {
+                            if (!empty($_SESSION['user']['group'])) {
+                                $userController->group_settings_view();
+                            } else {
+                                new AlertModel('error', 'Vous n\'êtes pas dans un groupe.');
+                                header('Location: ' . ROOT . 'group');
+                                exit();
+                            }
+                        } else {
+                            new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
+                            header('Location: ' . ROOT . 'user/sign-in');
+                            exit();
+                        }
+                    }
+                /*________________ GROUP 404 ________________*/
                 } else {
                     new AlertModel('error', 'La page demandée n\'existe pas.');
                     $errorController->error_404();

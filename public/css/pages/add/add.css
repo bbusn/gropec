@@ -1,1 +1,43 @@
-.add {gap: 50px;}h1 {font-size: 28px;color: var(--primaryColor);}.add-actions {width: 100%;}.add-actions {gap: 20px;}.add-actions a {gap: 20px;}.add-action p {position: absolute;top: 130%;left: 50%;transform: translate(-50%, -50%);font-size: 16px;color: var(--secondaryColorDark);}
+.add {
+    gap: 40px;
+}
+h1 {
+    font-size: 28px;
+    color: var(--primaryColor);
+}
+.add-actions {
+    width: 100%;
+    gap: 40px;
+}
+.add-actions a {
+    gap: 20px;
+}
+.add-action p {
+    position: absolute;
+    top: 130%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: var(--secondaryColorDark);
+}
+.primary-button, .quaternary-button {
+    transition: all 0.2s;
+    position: relative;
+    height: 50px;
+}
+.primary-button:active, .quaternary-button:active {
+    transition: all 0.2s;
+    transform: scale(0.8);
+}
+.training.primary-button {
+    background: url('../../../images/add/training.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.performance.quaternary-button {
+    background: url('../../../images/add/performance.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}

@@ -1,0 +1,47 @@
+
+.group-users li a {
+    box-sizing: border-box;
+    word-break: break-all;
+    word-spacing: pre-wrap;
+    font-size: 12px;
+    width: 50px;
+    height: 90px;
+    -webkit-transition: -webkit-transform 0.3s, -webkit-filter 0.3s;
+    -o-transition: transform 0.3s, filter 0.3s;
+    transition: transform 0.3s, filter 0.3s, -webkit-transform 0.3s, -webkit-filter 0.3s;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--quaternaryColor);
+    text-align: center;
+}
+.group-users li a.user {
+    opacity: 0.5;
+}
+.group-users li a:hover {
+    -webkit-transition: -webkit-transform 0.3s, -webkit-filter 0.3s;
+    -o-transition: transform 0.3s, filter 0.3s;
+    transition: transform 0.3s, filter 0.3s, -webkit-transform 0.3s, -webkit-filter 0.3s;
+    -webkit-filter: brightness(1.5);
+    filter: brightness(1.5);
+}
+.group-users li a:active {
+    -webkit-transition: -webkit-transform 0.3s, -webkit-filter 0.3s;
+    -o-transition: transform 0.3s, filter 0.3s;
+    transition: transform 0.3s, filter 0.3s, -webkit-transform 0.3s, -webkit-filter 0.3s;
+    -webkit-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+            transform: scale(0.9);
+}
+.group-users {
+    gap: 20px;
+    width: 100%;
+}
+.group-users li a:visited {
+    color: var(--white);
+}
+.group-users li a span {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--quinaryColor);
+}

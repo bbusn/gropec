@@ -1,0 +1,1 @@
+window.addEventListener("load",(function(){const t=document.querySelectorAll(".group-today-training");t.length>0&&t.forEach((t=>{t.addEventListener("click",(function(){const n=t.getAttribute("data-href");window.location.href=`${n}`}))}))}));

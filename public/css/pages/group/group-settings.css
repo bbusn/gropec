@@ -1,0 +1,6 @@
+h1 {
+    color: var(--primaryColor);
+}
+.group-actions, .group-actions form {
+    width: 100%;
+}

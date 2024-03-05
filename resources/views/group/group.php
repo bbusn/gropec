@@ -2,10 +2,15 @@
 <html lang="fr-FR">
 <!-- GROUP -->
 <?php 
-
+$sports = ['running'=>'Course à Pied', 'musculation'=>'Musculation', 'cycling'=>'Vélo', 'calisthenics'=>'Calisthénie', 'boxing'=>'Boxe anglaise'];
 $title = 'Groupe d\'amis';  
 $buttons = true;
-$inputs = true;
+if (empty($_SESSION['user']['group'])) {
+    $inputs = true;
+}
+if (!empty($_SESSION['user']['group']['today']['trainings'])) {
+    $scroll = true;
+}
 $footer = true;
 $links = '
     <!-- GROUP.CSS -->
@@ -13,6 +18,17 @@ $links = '
     <noscript><link rel="stylesheet" href="' . ROOT . 'public/css/pages/group/group.css' . V_QUERY . '"></noscript>
 ';
 
+function formatTime($time) {
+    if ($time > 60) {
+        $minutes = $time % 60;
+        if ($minutes < 10) {
+            $minutes = '0' . $minutes;
+        }
+        return floor($time / 60) . ' h ' . $minutes;
+    } else {
+        return $time . ' min';
+    }
+}
 
 require('resources/views/layout/head.php'); 
 
@@ -29,31 +45,37 @@ require('resources/views/layout/head.php');
                         <h1><span><?= $_SESSION['user']['group']['name'] ?></span></h1>
                         <h2>Code : <?= $_SESSION['user']['group']['code'] ?></h2>
                     </div>
-                    <?php if (isset($_SESSION['user']['group']['users'])) : ?>
-                        <ul class="group-users flex-center-center flex-wrap no-select">
-                            <?php foreach ($_SESSION['user']['group']['users'] as $user) : ?>
-                                <?php if ($user['username'] === $_SESSION['user']['username']) : ?>
-                                    <li>
-                                        <a class="user flex-start-center flex-column" href="<?= ROOT ?>user">
-                                            <span></span>
-                                            (vous)
-                                        </a>
-                                    </li>
-                                <?php else : ?>
-                                    <li>
-                                        <a class="flex-start-center flex-column" href="<?= ROOT ?>group/user/<?= $user['username'] ?>">
-                                            <span></span>
-                                            <?= $user['username'] ?>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endif; ?>
-                    <form class="group-actions flex-center-center flex-column no-select" action="" method="post">
-                        <input type="hidden" name="leave-group">
-                        <input type="submit" value="Quitter le groupe" class="quaternary-button flex-center-center ">
-                    </form>
+                    <div class="group-today flex-center-center flex-column no-select">
+                        <?php if (!empty($_SESSION['user']['group']['today']['trainings'])) : ?>
+                            <h2>Aujourd'hui</h2>
+                            <div class="group-today-trainings flex-start-center flex-column">
+                                <?php foreach ($_SESSION['user']['group']['today']['trainings'] as $training) : ?>
+                                    <div class="group-today-training <?php if ($training['username'] !== $_SESSION['user']['username']) : ?>user<?php else: ?><?php endif;?> flex-evenly-center" data-href="<?php if ($training['username'] !== $_SESSION['user']['username']) : ?><?= ROOT ?>group/user/<?= $training['username']; ?><?php else : ?><?= ROOT ?>user<?php endif; ?>">
+                                        <div class="flex-start-center">
+                                            <img src="<?= ROOT ?>public/images/sports/<?= $training['sport'] ?>.webp" alt="training-icon" width="15" height="15">
+                                            <?= $sports[$training['sport']] ?>
+                                        </div>
+                                        <span><?php if ($training['username'] !== $_SESSION['user']['username']) {echo $training['username'];} else {echo '(vous)';} ?></span>
+                                        <span><?php echo formatTime($training['time']); ?></span>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php else : ?>
+                            <h2>Aucun membre ne s'est entrainé aujourd'hui</h2>
+                        <?php endif; ?>
+                        <img class="group-image" src="<?= ROOT ?>public/images/group/desert.webp" alt="group-desert">
+                        <div class="group-image-rgba"></div>
+                    </div>
+                    <div class="group-actions flex-center-center flex-column no-select">
+                        <a href="<?= ROOT ?>group/users" class="flex-center-center quaternary-button">
+                            <img src="<?= ROOT ?>public/images/icons/group.svg" alt="group-icon" width="18" height="18">
+                            Membres du groupe
+                        </a>
+                        <a href="<?= ROOT ?>group/settings" class="flex-center-center quaternary-button">
+                            <img src="<?= ROOT ?>public/images/icons/settings.svg" alt="group-icon" width="15" height="15">
+                            Paramètres
+                        </a>
+                    </div>
                 <?php else : ?>
                     <div id="title" class="flex-center-center flex-column no-select">
                         <h1><span>Vous n'avez pas encore de groupe</span></h1>
@@ -71,6 +93,9 @@ require('resources/views/layout/head.php');
                     </form>
                 <?php endif; ?>
             </main>
+            <?php if (!empty($_SESSION['user']['group']['today']['trainings'])) : ?>
+                <script src="<?= ROOT ?>public/js/group.js"></script>
+            <?php endif; ?>
             <?php require('resources/views/layout/footer.php'); ?>
         </div>
     </div>

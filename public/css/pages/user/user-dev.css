@@ -53,6 +53,12 @@
     gap: 20px;
 }
 .user h1 {
+    text-align: left;
+    -ms-flex-wrap: wrap;
+       flex-wrap: wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
     font-size: 35px;
 }
 

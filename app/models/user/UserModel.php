@@ -197,12 +197,12 @@ class UserModel {
         if ($adress_id) {
             $user_id = $this->get_user_id($username);
             if ($user_id) {
-                $query = "INSERT INTO gpc_auth (auth, adress_id, last_login, user_id) VALUES (:auth, :adress_id, :last_login, (SELECT user_id FROM gpc_user WHERE username = :username));";
+                $query = "INSERT INTO gpc_auth (auth, adress_id, last_login, user_id) VALUES (:auth, :adress_id, :last_login, :user_id);";
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindParam(':auth', $auth);
                 $stmt->bindParam(':adress_id', $adress_id);
                 $stmt->bindParam(':last_login', date('Y-m-d H:i:s'));
-                $stmt->bindParam(':username', $username);
+                $stmt->bindParam(':user_id', $user_id);
                 $result = $stmt->execute();
                 return $result;
             } else {

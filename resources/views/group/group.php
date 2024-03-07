@@ -2,7 +2,7 @@
 <html lang="fr-FR">
 <!-- GROUP -->
 <?php 
-$sports = ['running'=>'Course à Pied', 'musculation'=>'Musculation', 'cycling'=>'Vélo', 'calisthenics'=>'Calisthénie', 'boxing'=>'Boxe anglaise'];
+$sports = ['running'=>'Course à Pied', 'musculation'=>'Musculation', 'cycling'=>'Vélo', 'calisthenics'=>'Callisthénie', 'boxing'=>'Boxe anglaise', 'swimming'=>'Natation', 'climbing'=>'Escalade', 'rowing'=>'Aviron', 'downhill-ski'=>'Ski alpin', 'stretchings'=>'Étirements'];
 $title = 'Groupe d\'amis';  
 $buttons = true;
 if (empty($_SESSION['user']['group'])) {
@@ -52,7 +52,7 @@ require('resources/views/layout/head.php');
                                 <?php foreach ($_SESSION['user']['group']['today']['trainings'] as $training) : ?>
                                     <div class="group-today-training <?php if ($training['username'] !== $_SESSION['user']['username']) : ?>user<?php else: ?><?php endif;?> flex-evenly-center" data-href="<?php if ($training['username'] !== $_SESSION['user']['username']) : ?><?= ROOT ?>group/user/<?= $training['username']; ?><?php else : ?><?= ROOT ?>user<?php endif; ?>">
                                         <div class="flex-start-center">
-                                            <img src="<?= ROOT ?>public/images/sports/<?= $training['sport'] ?>.webp" alt="training-icon" width="15" height="15">
+                                            <img src="<?= ROOT ?>public/images/sports/<?= $training['sport'] ?>.svg" alt="training-icon" width="15" height="15">
                                             <?= $sports[$training['sport']] ?>
                                         </div>
                                         <span><?php if ($training['username'] !== $_SESSION['user']['username']) {echo $training['username'];} else {echo '(vous)';} ?></span>
@@ -63,7 +63,7 @@ require('resources/views/layout/head.php');
                         <?php else : ?>
                             <h2>Aucun membre ne s'est entrainé aujourd'hui</h2>
                         <?php endif; ?>
-                        <img class="group-image" src="<?= ROOT ?>public/images/group/desert.webp" alt="group-desert">
+                        <img class="group-image" src="<?= ROOT ?>public/images/group/background.webp" alt="group-background">
                         <div class="group-image-rgba"></div>
                     </div>
                     <div class="group-actions flex-center-center flex-column no-select">

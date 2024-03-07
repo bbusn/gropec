@@ -28,11 +28,9 @@ require('resources/views/layout/head.php');
                 </div>
                 <div class="add-actions flex-center-center no-select flex-column">
                     <a href="<?= ROOT ?>add/training" class="primary-button training flex-center-center">
-                        <img class="no-select" src="<?= ROOT ?>public/images/icons/muscle.svg" alt="training-icon" height="26" width="26">
                         <p>Entrainement</p>
                     </a>
                     <a href="<?= ROOT ?>add/performance" class="quaternary-button performance flex-center-center">
-                        <img class="no-select" src="<?= ROOT ?>public/images/icons/target.svg" alt="performance-icon" height="30" width="30">                    
                         <p>Performance</p>
                     </a>
                 </div>

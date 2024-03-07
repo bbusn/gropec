@@ -2,7 +2,7 @@
 <html lang="fr-FR">
 <!-- STATISTICS -->
 <?php 
-$sports = ['running'=>'Course à Pied', 'musculation'=>'Musculation', 'cycling'=>'Vélo', 'calisthenics'=>'Calisthénie', 'boxing'=>'Boxe anglaise'];
+$sports = ['running'=>'Course à Pied', 'musculation'=>'Musculation', 'cycling'=>'Vélo', 'calisthenics'=>'Callisthénie', 'boxing'=>'Boxe anglaise', 'swimming'=>'Natation', 'climbing'=>'Escalade', 'rowing'=>'Aviron', 'downhill-ski'=>'Ski alpin', 'stretchings'=>'Étirements'];
 $title = 'Statistiques';
 $return = true;
 $footer = true;

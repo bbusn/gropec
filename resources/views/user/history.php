@@ -2,7 +2,7 @@
 <html lang="fr-FR">
 <!-- HISTORY -->
 <?php 
-$sports = ['running'=>'Course à Pied', 'musculation'=>'Musculation', 'cycling'=>'Vélo', 'calisthenics'=>'Calisthénie', 'boxing'=>'Boxe anglaise'];
+$sports = ['running'=>'Course à Pied', 'musculation'=>'Musculation', 'cycling'=>'Vélo', 'calisthenics'=>'Callisthénie', 'boxing'=>'Boxe anglaise', 'swimming'=>'Natation', 'climbing'=>'Escalade', 'rowing'=>'Aviron', 'downhill-ski'=>'Ski alpin', 'stretchings'=>'Étirements'];
 $title = 'Historique';
 $current_date = date('Y-m-d');
 $current_year = date('Y');
@@ -57,7 +57,7 @@ require('resources/views/layout/head.php');
                                 ?>
                                 <div class="training flex-center-center flex-column" data-id="<?= $item['id']?>">
                                     <div class="training-container flex-between-center">
-                                        <p class="date"><?php echo ($item_date->format('Y-m-d') === $current_date) ? 'Aujourd\'hui<br>à ' . $item_date->format('H:i') : (($year === $current_year) ? $day_name . ' ' . $day_month . '<br>à ' . $item_date->format('H:i') : $item_date->format('Y-m-d') . '<br>à ' . $item_date->format('H:i'));?></p>
+                                        <p class="date flex-start-center"><?php echo ($item_date->format('Y-m-d') === $current_date) ? 'Aujourd\'hui<br>à ' . $item_date->format('H:i') : (($year === $current_year) ? $day_name . ' ' . $day_month . '<br>à ' . $item_date->format('H:i') : $item_date->format('Y-m-d') . '<br>à ' . $item_date->format('H:i'));?></p>
                                         <p class="sport"><?php echo $sports[$item['sport']]; ?></p>
                                         <p class="time"><?php echo formatTime($item['time']); ?></p>
                                     </div>

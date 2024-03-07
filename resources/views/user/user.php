@@ -25,7 +25,7 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/header.php'); ?>
             <main class="user flex-evenly-center flex-column">
                 <div id="title" class="flex-center-start flex-column">
-                    <h1><span><?= $_SESSION['user']['username'] ?></span></h1>
+                    <h1 <?php if (strlen($_SESSION['user']['username']) > 12) {echo 'class="large"';}?>><span><?= $_SESSION['user']['username'] ?></span></h1>
                     <?php if (isset($_SESSION['user']['group'])) : ?>
                     <h2>Dans le groupe "<?= $_SESSION['user']['group']['name'] ?>"</h2>
                     <?php else : ?>

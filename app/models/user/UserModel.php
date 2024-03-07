@@ -895,6 +895,12 @@ class UserModel {
         $statistics['trainings']['sport']['boxing'] = 0;
         $statistics['trainings']['sport']['calisthenics'] = 0;
         $statistics['trainings']['sport']['musculation'] = 0;
+        $statistics['trainings']['sport']['swimming'] = 0;
+        $statistics['trainings']['sport']['downhill-ski'] = 0;
+        $statistics['trainings']['sport']['stretchings'] = 0;
+        $statistics['trainings']['sport']['climbing'] = 0;
+        $statistics['trainings']['sport']['swimming'] = 0;
+        $statistics['trainings']['sport']['rowing'] = 0;
         $statistics['trainings']['sport']['prefered']['name'] = 0;
         $statistics['trainings']['sport']['prefered']['count'] = 0;
         $statistics['trainings']['max']['time'] = 0;

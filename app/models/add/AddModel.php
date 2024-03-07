@@ -1,5 +1,5 @@
 <?php
-    const SPORTS = ['running', 'musculation', 'cycling', 'calisthenics', 'boxing'];
+    const SPORTS = ['running', 'musculation', 'cycling', 'calisthenics', 'boxing', 'swimming', 'climbing', 'rowing', 'downhill-ski', 'stretchings'];
  
 /*____________ ADD MODEL ____________*/
 class AddModel {

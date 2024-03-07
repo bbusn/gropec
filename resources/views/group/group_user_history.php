@@ -2,7 +2,7 @@
 <html lang="fr-FR">
 <!-- GROUP USER HISTORY -->
 <?php 
-$sports = ['running'=>'Course à Pied', 'musculation'=>'Musculation', 'cycling'=>'Vélo', 'calisthenics'=>'Calisthénie', 'boxing'=>'Boxe anglaise'];
+$sports = ['running'=>'Course à Pied', 'musculation'=>'Musculation', 'cycling'=>'Vélo', 'calisthenics'=>'Callisthénie', 'boxing'=>'Boxe anglaise', 'swimming'=>'Natation', 'climbing'=>'Escalade', 'rowing'=>'Aviron', 'downhill-ski'=>'Ski alpin', 'stretchings'=>'Étirements'];
 $title = 'Historique de ' . $_SESSION['user']['group']['user']['username'];
 $current_date = date('Y-m-d');
 $current_year = date('Y');

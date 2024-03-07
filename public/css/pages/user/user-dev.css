@@ -61,7 +61,9 @@
     white-space: pre-wrap;
     font-size: 35px;
 }
-
+.user h1.large {
+    font-size: 28px;
+}
 .user h2 {
     font-size: 18px;
     text-align:left

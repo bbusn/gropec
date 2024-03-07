@@ -13,6 +13,17 @@
             "src": "http://localhost/gropec/android-chrome-256x256.png",
             "sizes": "256x256",
             "type": "image/png"
+        },
+        {
+            "src": "http://localhost/gropec/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "http://localhost/gropec/maskable_icon.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "maskable"
         }
     ],
     "theme_color": "#000000",

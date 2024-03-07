@@ -1,5 +1,5 @@
 .add {
-    gap: 50px;
+    gap: 40px;
 }
 h1 {
     font-size: 28px;
@@ -7,12 +7,7 @@ h1 {
 }
 .add-actions {
     width: 100%;
-}
-.add-actions {
-    gap: 20px;
-}
-.add-actions a {
-    gap: 20px;
+    gap: 40px;
 }
 .add-action p {
     position: absolute;
@@ -22,16 +17,24 @@ h1 {
     font-size: 16px;
     color: var(--secondaryColorDark);
 }
-.training.primary-button, .performance.quaternary-button {
+.primary-button, .quaternary-button {
+    transition: all 0.2s;
     position: relative;
-    height: 150px;
+    height: 50px;
 }
-.training.primary-button img, .performance.quaternary-button img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-    width: 100%;
-    height: 100%;
+.primary-button:active, .quaternary-button:active {
+    transition: all 0.2s;
+    transform: scale(0.8);
+}
+.training.primary-button {
+    background: url('../../../images/add/training.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.performance.quaternary-button {
+    background: url('../../../images/add/performance.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }

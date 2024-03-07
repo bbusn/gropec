@@ -26,7 +26,7 @@ h1 {
     box-sizing: border-box;
     padding: 20px;
     height: 45%;
-    width: 90%;
+    width: 95%;
 }
 .group-today h2 {
     font-size: 17px;
@@ -82,7 +82,7 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.5);
 }
 .group-image {
     position: absolute;

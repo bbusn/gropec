@@ -32,10 +32,15 @@ require('resources/views/layout/head.php');
                         <div class="selected-option flex-center-center flex-column">Choisissez un sport</div>
                         <div class="dropdown-options">
                             <div class="option" data-value="musculation">Musculation</div>
+                            <div class="option" data-value="calisthenics">Callisthénie</div>
                             <div class="option" data-value="running">Course à pied</div>
+                            <div class="option" data-value="stretchings">Étirements</div>
                             <div class="option" data-value="cycling">Vélo</div>
                             <div class="option" data-value="boxing">Boxe anglaise</div>
-                            <div class="option" data-value="calisthenics">Calisthénie</div>
+                            <div class="option" data-value="swimming">Natation</div>
+                            <div class="option" data-value="climbing">Escalade</div>
+                            <div class="option" data-value="rowing">Aviron</div>
+                            <div class="option" data-value="downhill-ski">Ski alpin</div>
                         </div>
                     </div>
                     <input type="hidden" name="sport" value="" id="sport">

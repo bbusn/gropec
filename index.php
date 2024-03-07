@@ -31,7 +31,6 @@ $userController = new UserController($conn);
 $addController = new AddController($conn);
 $errorController = new ErrorController();
 
-
 /*________________________________________*/
 /*           ROUTES                       */
 /*________________________________________*/

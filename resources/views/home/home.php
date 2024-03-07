@@ -24,7 +24,7 @@ require('resources/views/layout/head.php');
             <?php require('resources/views/layout/header.php'); ?>
             <main class="home flex-evenly-center flex-column">
                 <div id="title" class="flex-center-start flex-column">
-                    <h1>Bonjour, <span><?= $_SESSION['user']['username'] ?></span></h1>
+                    <h1 class="flex-center-center <?php if (strlen($_SESSION['user']['username']) > 8) {echo 'flex-column';}?>">Bonjour<span><?= $_SESSION['user']['username'] ?></span></h1>
                 </div>
             </main>
             <?php require('resources/views/layout/footer.php'); ?>

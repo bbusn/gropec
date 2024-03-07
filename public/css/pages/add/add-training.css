@@ -22,6 +22,7 @@ h2 {
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
     width: 75%;
+    height: 100%;
     cursor: pointer;
     padding: 10px 5px;
     background: var(--secondaryColorLight);
@@ -37,8 +38,10 @@ h2 {
     -webkit-transform: translate(-50%, 0);
         -ms-transform: translate(-50%, 0);
             transform: translate(-50%, 0);
-    top: 100%;
     left: 50%;
+    top: 100%;
+    height: 500%;
+    overflow-y: scroll;
     background-color: var(--white);
     border-top: none;
     display: none;

@@ -112,14 +112,12 @@ class UserModel {
     public function sign_in_auth($auth, $ip) {
         $data = $this->check_ban($ip);
         if ($data == '1') {
-            new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
-            unset($_POST['username'], $_POST['password']);            
+            new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');           
             return false;
         } else {
             //_______ AUTH EMPTY _______//
             if (empty($auth)) {
-                new AlertModel('error', 'Il y a une erreur avec votre session, veuillez vous reconnecter.');
-                unset($_POST['auth']);            
+                new AlertModel('error', 'Il y a une erreur avec votre session, veuillez vous reconnecter.');           
                 return false;
             } else {
                 //_______ AUTH EXISTS _______//
@@ -164,8 +162,7 @@ class UserModel {
                         new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
                         return false;
                     } else {
-                        new AlertModel('error', 'Il y a une erreur avec votre session, veuillez vous reconnecter. ' . $attempts . ' tentative(s) restante(s).');
-                        unset($_POST['auth']);    
+                        new AlertModel('error', 'Il y a une erreur avec votre session, veuillez vous reconnecter. ' . $attempts . ' tentative(s) restante(s).');  
                         return false;
                     }
                 }
@@ -185,6 +182,20 @@ class UserModel {
         } while ($count > 0);
         return $auth;
     }
+    /*____________HAS AUTH ____________*/
+    public function has_auth($auth) {
+        $query = "SELECT COUNT(*) FROM gpc_auth WHERE auth = :auth";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':auth', $auth);
+        $stmt->execute();
+        $count = $stmt->fetchColumn();
+        if ($count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /*____________SET AUTH ____________*/
     public function set_auth($auth, $ip, $username) {
         $has_adress = $this->has_adress($ip);
@@ -204,6 +215,8 @@ class UserModel {
                 $stmt->bindParam(':last_login', date('Y-m-d H:i:s'));
                 $stmt->bindParam(':user_id', $user_id);
                 $result = $stmt->execute();
+                $expire = time() + (360 * 24 * 60 * 60);
+                setcookie('gpc_auth', $auth, $expire, '/', '', true, false);
                 return $result;
             } else {
                 new AlertModel('error', 'Impossible de générer une authentification, l\'utilisateur n\'existe pas.');
@@ -215,10 +228,10 @@ class UserModel {
         }
     }
     /*____________ DELETE AUTH ____________*/
-    public function delete_auth($auth) {
-        $query = "DELETE FROM gpc_auth WHERE auth = :auth";
+    public function delete_auths($user_id) {
+        $query = "DELETE FROM gpc_auth WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':auth', $auth);
+        $stmt->bindParam(':user_id', $user_id);
         $result = $stmt->execute();
         setcookie('gpc_auth', '', time() - 3600, '/');
         unset($_COOKIE['gpc_auth']);
@@ -230,6 +243,16 @@ class UserModel {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':last_login', date('Y-m-d H:i:s'));
         $stmt->bindParam(':auth', $auth);
+        $result = $stmt->execute();
+        $expire = time() + (360 * 24 * 60 * 60);
+        setcookie('gpc_auth', $auth, $expire, '/', '', true, false);
+        return $result;
+    }
+    /*____________ DELETE USELESS AUTHS ____________*/
+    public function delete_useless_auths() {
+        $query = "DELETE FROM gpc_auth WHERE last_login < :last_login";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':last_login', date('Y-m-d H:i:s', strtotime('-1 day')));
         $result = $stmt->execute();
         return $result;
     }
@@ -416,14 +439,21 @@ class UserModel {
             return false;
         } else {
             //_______ DELETE ACCOUNT _______//
-            $query = "DELETE FROM gpc_user WHERE username = :username";
+            $this->leave_group();
+
+            $query = "DELETE FROM gpc_auth WHERE user_id = :user_id";
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':user_id', $user_id);
             $result = $stmt->execute();
 
             $query = "DELETE FROM gpc_training WHERE user_id = :user_id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':user_id', $user_id);
+            $result = $stmt->execute();
+
+            $query = "DELETE FROM gpc_user WHERE username = :username";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':username', $username);
             $result = $stmt->execute();
             return true;
         }

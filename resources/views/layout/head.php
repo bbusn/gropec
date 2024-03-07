@@ -35,7 +35,7 @@
     <!-- METAS -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="description" content="Découvrez Gropec, une application de sport pour se motiver entre amis">
+        <meta name="description" content="Découvrez Gropec, l'application sportive conçue pour rendre vos séances d'entraînement plus dynamiques et motivantes en les partageant avec vos amis ! Créez ou rejoignez des groupes selon vos centres d'intérêt sportifs, que ce soit la course à pied, la musculation... Enregistrer vos entraînements, suivre vos progrès, et encourager vos amis devient facile avec Gropec.">
     <meta name="keywords" content="Gropec, Compétition sport entre amis, Groupe de sport, Jeu sport amis, Motivation sport amis">
     <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow">

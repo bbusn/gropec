@@ -98,20 +98,19 @@ class UserController {
             new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
             $this->sign_in_view();
         } else {
-            if(!empty($_COOKIE['gpc_auth'])) {
-                $auth = $_COOKIE['gpc_auth'];
-                $username = $this->userModel->sign_in_auth($auth, $ip);
-                $result = true;
-            } else {
-                $result = $this->userModel->sign_in($username, $password, $ip);
-            }
+            $result = $this->userModel->sign_in($username, $password, $ip);
             if ($result) {
-                if(empty($_COOKIE['gpc_auth'])) {
+                $results = $this->userModel->has_auth($auth);
+                if (!$results) {
                     $auth = $this->userModel->generate_auth();
-                    $expire = time() + (360 * 24 * 60 * 60);
-                    setcookie('gpc_auth', $auth, $expire, '/', '', true, false);
                     $this->userModel->set_auth($auth, $ip, $username);
                     $this->userModel->session_set_auth($auth);
+                } else {
+                    $data = $this->userModel->update_auth($auth);
+                    $this->userModel->delete_useless_auths($auth);
+                    if ($data) {
+                        $this->userModel->session_update_auth($data);
+                    }
                 }
                 $this->userModel->remove_attempts($ip);
                 $this->userModel->session_sign_in($username);
@@ -126,6 +125,49 @@ class UserController {
             }
         }
     }
+    /*____________ SIGN IN AUTH ____________*/
+    public function sign_in_auth() {
+        $this->userModel->session_app();
+        $auth = $_COOKIE['gpc_auth'];
+        if (empty($auth)) {
+            new AlertModel('error', 'Votre session a expiré, veuillez vous reconnecter.');
+            $this->sign_in_view();
+        } else {
+            $ip = $this->userModel->get_ip();
+            $ban = $this->userModel->check_ban($ip);
+            if ($ban == '1') {
+                new AlertModel('error', 'Trop de tentatives, veuillez contacter l\'administrateur.');
+                $this->sign_in_view();
+            } else {
+                $results = $this->userModel->has_auth($auth);
+                if ($results) {
+                    $username = $this->userModel->sign_in_auth($auth, $ip);
+                    $data = $this->userModel->update_auth($auth);
+                    if ($data) {
+                        $this->userModel->session_update_auth($data);
+                    }
+                    if ($username) {
+                        $this->userModel->remove_attempts($ip);
+                        $this->userModel->session_sign_in($username);
+                        $data = $this->userModel->get_group();
+                        if ($data) {
+                            $this->userModel->session_join_group($data);
+                        } 
+                        header('Location: ' . ROOT . 'user');
+                        exit();
+                    } else {
+                        new AlertModel('error', 'Votre session a expiré, veuillez vous reconnecter.');
+                        $this->sign_in_view();
+                    }
+                } else {
+                    new AlertModel('error', 'Votre session a expiré, veuillez vous reconnecter.');
+                    $this->sign_in_view();
+                }
+            }
+        }
+        
+    }
+
     /*____________ SIGN UP VIEW ____________*/
     public function sign_up_view() {
         new AlertModel('success', 'Inscription temporairement désactivée.');
@@ -144,7 +186,13 @@ class UserController {
     }
     /*____________ SIGN OUT ____________*/
     public function sign_out() {
-        $this->userModel->delete_auth($_SESSION['user']['auth']);
+        $user_id = $_SESSION['user']['user_id'];
+        if ($user_id) {
+            $this->userModel->delete_auths($user_id);
+        } else {
+            $user_id = $this->userModel->get_user_id($_SESSION['user']['username']);
+            $this->userModel->delete_auths($user_id);
+        }
         $this->userModel->session_sign_out();
         if (isset($_SESSION['app']) || isset($_SESSION['web'])) {
             header('Location: ' . ROOT . 'user/sign-in');

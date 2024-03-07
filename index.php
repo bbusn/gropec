@@ -5,11 +5,16 @@ define('ROOT', '/gropec/');
 // define('ROOT', '/');
 define('ROOT_SEGMENTS', '4');
 // define('ROOT_SEGMENTS', '3');
-define('VERSION', '1.0.0');
+define('VERSION', '1.0.1');
 define('AUTHOR_URL', 'https://benoitbusnardo.fr');
 define('V_QUERY', '?v='.VERSION);
 /*____________ SESSION ____________*/
 ini_set('session.cookie_lifetime', 365 * 24 * 60 * 60);
+/*____________ ERROR DISPLAY ____________*/
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -116,9 +121,8 @@ try {
                             }
                         } else {
                             if(!empty($_COOKIE['gpc_auth'])) {
-                                $username = 'username';
-                                $password = 'password';
-                                $userController->sign_in($username, $password);    
+                                $auth = $_COOKIE['gpc_auth'];
+                                $userController->sign_in_auth($auth);
                             } else {
                                 $userController->sign_in_view();
                             }
@@ -504,8 +508,13 @@ try {
         /*________________________________________*/
         if (!isset($_SESSION['app']) && !isset($_SESSION['web'])) {
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-                new AlertModel('success', 'Bienvenue sur Gropec, commencez par installer l\'application !');
-                $userController->install_view();
+                if(!empty($_COOKIE['gpc_auth'])) {
+                    $auth = $_COOKIE['gpc_auth'];
+                    $userController->sign_in_auth($auth);
+                } else {
+                    new AlertModel('success', 'Bienvenue sur Gropec, commencez par installer l\'application !');
+                    $userController->install_view();
+                }
             /*________________ POST ________________*/
             } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 /*________________ INSTALLED ________________*/

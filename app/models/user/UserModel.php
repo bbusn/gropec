@@ -949,11 +949,10 @@ class UserModel {
         } while ($count > 0);
         return $code;
     }
-    /*____________ UNSET INSTALL POSTS ____________*/
-    public function unset_install_posts() {
-        unset($_POST['installed']);
-        unset($_POST['refused']);
-        unset($_POST['web']);
+    /*____________ STARTED ____________*/
+    public function started() {
+        setcookie('gpc_start', true, time() + (360 * 24 * 60 * 60), '/', '', true, false);
+        unset($_POST['started']);
     }
     
     /*
@@ -1008,7 +1007,6 @@ class UserModel {
     }
     /*____________ SESSION DELETE ACCOUNT ____________*/
      public function session_delete_account() {
-        $this->unset_install_posts();
         unset($_SESSION['user']);
         unset($_POST['sign-out']);
         new AlertModel('success', 'Votre compte a été supprimé avec succès. À bientôt !');
@@ -1050,13 +1048,5 @@ class UserModel {
     public function session_leave_group() {
         new AlertModel('success', 'Vous avez quitté le groupe ' . $_SESSION['user']['group']['name'] . '.');
         unset($_SESSION['user']['group']);
-    }
-    /*____________ SESSION WEB ____________*/
-    public function session_web() {
-        $_SESSION['web'] = true;
-    }
-    /*____________ SESSION APP ____________*/
-    public function session_app() {
-        $_SESSION['app'] = true;
     }
 }

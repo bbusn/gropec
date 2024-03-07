@@ -5,29 +5,26 @@ define('ROOT', '/gropec/');
 // define('ROOT', '/');
 define('ROOT_SEGMENTS', '4');
 // define('ROOT_SEGMENTS', '3');
-define('VERSION', '1.0.1');
+define('VERSION', '1.0.3');
 define('AUTHOR_URL', 'https://benoitbusnardo.fr');
 define('V_QUERY', '?v='.VERSION);
 /*____________ SESSION ____________*/
 ini_set('session.cookie_lifetime', 365 * 24 * 60 * 60);
-/*____________ ERROR DISPLAY ____________*/
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+ini_set('session.gc_maxlifetime', 365 * 24 * 60 * 60);
 
 if (!isset($_SESSION)) {
     session_start();
 }
 
 /*____________ MODELS ____________*/
-require('app/models/AlertModel.php');
-require('app/models/Database.php');
+require_once('app/models/AlertModel.php');
+require_once('app/models/Database.php');
 
 /*____________ CONTROLLERS ____________*/
-require('app/controllers/HomeController.php');
-require('app/controllers/UserController.php');
-require('app/controllers/AddController.php');
-require('app/controllers/ErrorController.php');
+require_once('app/controllers/HomeController.php');
+require_once('app/controllers/UserController.php');
+require_once('app/controllers/AddController.php');
+require_once('app/controllers/ErrorController.php');
 
 $homeController = new HomeController($conn);
 $userController = new UserController($conn);
@@ -61,9 +58,9 @@ try {
         $route_options = isset($urlSegments[2]) ? $urlSegments[2] : '';
         $route_sub_options = isset($urlSegments[3]) ? $urlSegments[3] : '';
         /*________________________________________*/
-        /*  USER LAUNCHED APP OR WEB */
+        /*  USER STARTED */
         /*________________________________________*/
-        if (isset($_SESSION['app']) || isset($_SESSION['web'])) {
+        if (!empty($_COOKIE['gpc_start'])) {
             /*________________________________________*/
             /*                 USER                   */
             /*________________________________________*/
@@ -72,26 +69,17 @@ try {
                 if ($route == 'sign-up') {
                     if (!isset($_SESSION['user'])) {
                         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                            if (isset($_POST['back-install'])) {
-                                if (!isset($_SESSION['app'])) {
-                                    unset($_SESSION['web']);
-                                    unset($_SESSION['user']);
-                                    header('Location: ' . ROOT);
-                                    exit();
-                                }
-                            } else {
-                                $userController->sign_up_view(); // switch comments to disable + userController view
+                            $userController->sign_up_view(); // switch comments to disable + userController view
 
-                                /*_________________ TEMPORARY DISABLED _________________*/
+                            /*_________________ TEMPORARY DISABLED _________________*/
 
-                                // require('app/utilities/SanitizeData.php');
-            
-                                // $username = sanitize_form_data($_POST['username']);
-                                // $password = sanitize_form_data($_POST['password']);
-                                // $passwordConfirm = sanitize_form_data($_POST['password-confirm']);
-            
-                                // $userController->sign_up($username, $password, $passwordConfirm);
-                            }
+                            // require('app/utilities/SanitizeData.php');
+        
+                            // $username = sanitize_form_data($_POST['username']);
+                            // $password = sanitize_form_data($_POST['password']);
+                            // $passwordConfirm = sanitize_form_data($_POST['password-confirm']);
+        
+                            // $userController->sign_up($username, $password, $passwordConfirm);
                         } else {
                             $userController->sign_up_view();
                         }
@@ -104,21 +92,12 @@ try {
                 } elseif ($route == 'sign-in') {
                     if (!isset($_SESSION['user'])) {
                         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                            if (isset($_POST['back-install'])) {
-                                if (!isset($_SESSION['app'])) {
-                                    unset($_SESSION['web']);
-                                    unset($_SESSION['user']);
-                                    header('Location: ' . ROOT);
-                                    exit();
-                                }
-                            } else {
-                                require('app/utilities/SanitizeData.php');
+                            require('app/utilities/SanitizeData.php');
+    
+                            $username = sanitize_form_data($_POST['username']);
+                            $password = sanitize_form_data($_POST['password']);
         
-                                $username = sanitize_form_data($_POST['username']);
-                                $password = sanitize_form_data($_POST['password']);
-            
-                                $userController->sign_in($username, $password);    
-                            }
+                            $userController->sign_in($username, $password);    
                         } else {
                             if(!empty($_COOKIE['gpc_auth'])) {
                                 $auth = $_COOKIE['gpc_auth'];
@@ -226,9 +205,6 @@ try {
                     if (isset($_SESSION['user'])) {
                         $userController->user_view();
                     } else {
-                        if (!isset($_SESSION['app']) && !isset($_SESSION['web'])) {
-                            new AlertModel('error', 'Vous n\'êtes pas connecté, connectez vous pour utiliser l\'application.');
-                        }
                         header('Location: ' . ROOT . 'user/sign-in');
                         exit();
                     }
@@ -506,26 +482,22 @@ try {
         /*________________________________________*/
         /*  NO URL SET  */
         /*________________________________________*/
-        if (!isset($_SESSION['app']) && !isset($_SESSION['web'])) {
+        if (empty($_COOKIE['gpc_start'])) {
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 if(!empty($_COOKIE['gpc_auth'])) {
                     $auth = $_COOKIE['gpc_auth'];
                     $userController->sign_in_auth($auth);
                 } else {
-                    new AlertModel('success', 'Bienvenue sur Gropec, commencez par installer l\'application !');
-                    $userController->install_view();
+                    new AlertModel('success', 'Bienvenue sur Gropec, cliquez sur commencer pour lancer l\'application !');
+                    $userController->start_view();
                 }
             /*________________ POST ________________*/
             } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                /*________________ INSTALLED ________________*/
-                if (isset($_POST['installed'])) {
-                    $userController->installed();
-                /*________________ REFUSED ________________*/
-                } elseif (isset($_POST['refused'])) {
-                    $userController->refused();      
-                /*________________ WEB ________________*/
-                } elseif (isset($_POST['web'])) {
-                    $userController->web();
+                /*________________________________________*/
+                /*                 STARTED                */
+                /*________________________________________*/
+                if (isset($_POST['started'])) {
+                    $userController->started();
                 }
             }
         } else {

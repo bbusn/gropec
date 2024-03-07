@@ -7,8 +7,6 @@ $title = 'S\'inscrire';
 $top_title = $title;
 $buttons = true;
 $inputs = true;
-$return = true;
-$return_installation = true;
 $footer = true;
 $links = '
     <!-- AUTHENTIFICATION.CSS -->

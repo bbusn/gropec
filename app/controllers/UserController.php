@@ -127,9 +127,10 @@ class UserController {
     }
     /*____________ SIGN IN AUTH ____________*/
     public function sign_in_auth() {
-        $this->userModel->session_app();
+        $this->userModel->started();
         $auth = $_COOKIE['gpc_auth'];
         if (empty($auth)) {
+            $this->userModel->delete_auths($auth);
             new AlertModel('error', 'Votre session a expiré, veuillez vous reconnecter.');
             $this->sign_in_view();
         } else {
@@ -156,10 +157,12 @@ class UserController {
                         header('Location: ' . ROOT . 'user');
                         exit();
                     } else {
+                        $this->userModel->delete_auths($auth);
                         new AlertModel('error', 'Votre session a expiré, veuillez vous reconnecter.');
                         $this->sign_in_view();
                     }
                 } else {
+                    $this->userModel->delete_auths($auth);
                     new AlertModel('error', 'Votre session a expiré, veuillez vous reconnecter.');
                     $this->sign_in_view();
                 }
@@ -314,28 +317,14 @@ class UserController {
             exit();
         }
     }
-    /*____________ INSTALL VIEW ____________*/
-    public function install_view() {
-        require('resources/views/user/install.php');
+    /*____________ START VIEW ____________*/
+    public function start_view() {
+        require('resources/views/user/start.php');
     }
-    /*____________ INSTALLED ____________*/
-    public function installed() {
-        $this->userModel->session_app();
-        $this->userModel->unset_install_posts();
-        require('resources/views/user/installed.php');
-    }
-    /*____________ REFUSED ____________*/
-    public function refused() {
-        $this->userModel->unset_install_posts();
-        new AlertModel('error', 'Vous avez refusé l\'installation, réessayer en cliquant sur le bouton ci-dessous.');
-        require('resources/views/user/install.php');
-    }
-    /*____________ WEB ____________*/
-    public function web() {
-        $this->userModel->unset_install_posts();
-        $this->userModel->session_web();
-        new AlertModel('success', 'Vous utilisez la version web, peut-être sélectionnée automatiquement selon votre navigateur.');
-        header('Location: ' . ROOT . 'user');
+    /*____________ STARTED ____________*/
+    public function started() {
+        $this->userModel->started();
+        header('Location: ' . ROOT . 'user/sign-in');
         exit();
     }
     /*____________ PRIVACY ____________*/

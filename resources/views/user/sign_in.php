@@ -6,8 +6,6 @@
 $title = 'Se connecter';
 $top_title = $title;
 $footer = true;
-$return = true;
-$return_installation = true;
 $buttons = true;
 $inputs = true;
 $links = '

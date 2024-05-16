@@ -3,8 +3,14 @@
 Welcome to Gropec, a Progressive Web Application (PWA) designed to enhance your sport productivity and organization. 
 This README provides essential information for development and maintenance of the project.
 
-![Image](https://benoitbusnardo.fr/assets/images/projects/gropec/gropec-screen-2.svg)
-![Image](https://benoitbusnardo.fr/assets/images/projects/gropec/gropec-screen-1.svg)
+## Screenshots
+
+![App Screenshot](https://benoitbusnardo.fr/assets/images/projects/gropec/gropec-screen-2.svg)
+![App Screenshot](https://benoitbusnardo.fr/assets/images/projects/gropec/gropec-screen-1.svg)
+
+## Demonstration
+
+App hosted here : https://gropec.fr
 
 ## Table of Contents
 

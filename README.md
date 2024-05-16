@@ -1,4 +1,4 @@
-# 💪🏻 Gropec - Sport entre amis
+# Gropec - Sport entre amis
 
 Welcome to Gropec, a Progressive Web Application (PWA) designed to enhance your sport productivity and organization. 
 This README provides essential information for development and maintenance of the project.
